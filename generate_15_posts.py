@@ -143,30 +143,54 @@ def draw_base_template(draw, title: str, category: str, subtitle: str, day_num: 
     for gx in range(50, 1050, 140):
         draw.line([(gx, 120), (gx, 1850)], fill=GRID_COLOR, width=1)
 
-    # Top Brand Pill
-    pill_text = f"THE WEALTH BLUEPRINT  //  DAY {day_num:02d}"
+    # Top Follow / Subscribe Pill
+    pill_text = "FOLLOW / SUBSCRIBE"
     pill_font = get_font(24, bold=True)
-    draw_card(draw, 70, 75, 470, 52, border_color=GREEN, bg_color=(10, 28, 22), radius=26, border_width=2)
-    draw.text((105, 87), pill_text, fill=GREEN, font=pill_font)
+    pill_w = 380
+    draw_card(draw, 70, 75, pill_w, 52, border_color=GREEN, bg_color=(10, 28, 22), radius=26, border_width=2)
+    p_bbox = pill_font.getbbox(pill_text)
+    p_tx = 70 + (pill_w - (p_bbox[2] - p_bbox[0])) // 2
+    p_ty = 75 + (52 - (p_bbox[3] - p_bbox[1])) // 2
+    draw.text((p_tx, p_ty), pill_text, fill=GREEN, font=pill_font)
 
     # Category Pill
     cat_font = get_font(22, bold=True)
-    cat_w = 400
-    draw_card(draw, 560, 75, 450, 52, border_color=GOLD, bg_color=(28, 24, 10), radius=26, border_width=2)
-    draw.text((595, 88), f"CATEGORY: {category.upper()}", fill=GOLD, font=cat_font)
+    cat_text = f"CATEGORY: {category.upper()}"
+    cat_w = 460
+    draw_card(draw, 550, 75, cat_w, 52, border_color=GOLD, bg_color=(28, 24, 10), radius=26, border_width=2)
+    c_bbox = cat_font.getbbox(cat_text)
+    c_tx = 550 + (cat_w - (c_bbox[2] - c_bbox[0])) // 2
+    c_ty = 75 + (52 - (c_bbox[3] - c_bbox[1])) // 2
+    draw.text((c_tx, c_ty), cat_text, fill=GOLD, font=cat_font)
 
-    # Main Headline
-    title_font = get_font(52, bold=True)
+    # Main Headline with auto-fit
+    title_size = 50
+    title_font = get_font(title_size, bold=True)
+    t_bbox = title_font.getbbox(title)
+    while (t_bbox[2] - t_bbox[0]) > 940 and title_size > 28:
+        title_size -= 2
+        title_font = get_font(title_size, bold=True)
+        t_bbox = title_font.getbbox(title)
     draw.text((70, 150), title, fill=WHITE, font=title_font)
     
-    # Subtitle Hook
-    sub_font = get_font(25, bold=False)
+    # Subtitle Hook with auto-fit
+    sub_size = 25
+    sub_font = get_font(sub_size, bold=False)
+    s_bbox = sub_font.getbbox(subtitle)
+    while (s_bbox[2] - s_bbox[0]) > 940 and sub_size > 18:
+        sub_size -= 1
+        sub_font = get_font(sub_size, bold=False)
+        s_bbox = sub_font.getbbox(subtitle)
     draw.text((70, 218), subtitle, fill=MUTED, font=sub_font)
 
-    # Bottom Call to Action Card
+    # Bottom Call to Action Card (Mathematically Centered)
     foot_font = get_font(27, bold=True)
+    foot_text = "SAVE THIS REEL   |   FOLLOW / SUBSCRIBE"
     draw_card(draw, 70, 1750, 940, 90, border_color=GREEN, bg_color=(12, 26, 22), radius=20, border_width=3)
-    draw.text((150, 1778), "SAVE THIS REEL   |   FOLLOW @THEWEALTHBLUEPRINT", fill=GREEN, font=foot_font)
+    f_bbox = foot_font.getbbox(foot_text)
+    f_tx = 70 + (940 - (f_bbox[2] - f_bbox[0])) // 2
+    f_ty = 1750 + (90 - (f_bbox[3] - f_bbox[1])) // 2
+    draw.text((f_tx, f_ty), foot_text, fill=GREEN, font=foot_font)
 
 # -------------------------------------------------------------
 # 15 Specific Infographic Content Definitions
