@@ -30,6 +30,13 @@ def get_dashboard():
         return FileResponse(index_file)
     return {"message": "Web UI initializing. Please refresh in a moment."}
 
+@app.get("/bio")
+def get_bio_page():
+    bio_file = os.path.join(WEB_DIR, "bio_landing_page.html")
+    if os.path.exists(bio_file):
+        return FileResponse(bio_file)
+    return {"message": "Bio page initializing."}
+
 @app.get("/api/latest")
 def get_latest():
     meta_path = os.path.join(OUTPUT_DIR, "latest_metadata.json")

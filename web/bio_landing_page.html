@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wealth Blueprint | Official Links & Resources</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090B10;
+      --card-bg: #11141E;
+      --card-border: #1E2333;
+      --accent-gold: #E5C07B;
+      --accent-green: #00F298;
+      --text: #F3F4F6;
+      --text-muted: #9CA3AF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1.25rem;
+      background-image: radial-gradient(circle at 50% 10%, rgba(0, 242, 152, 0.08) 0%, transparent 60%);
+    }
+
+    .profile-container {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .avatar-wrapper {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #00F298, #E5C07B);
+      box-shadow: 0 0 30px rgba(0, 242, 152, 0.25);
+      margin-bottom: 1.25rem;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #000;
+    }
+
+    h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .verified-badge {
+      color: #00F298;
+      font-size: 1.1rem;
+    }
+
+    .bio-tagline {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 2rem;
+    }
+
+    .links-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      padding: 1.15rem 1.25rem;
+      border-radius: 16px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.98rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-green);
+      box-shadow: 0 8px 25px rgba(0, 242, 152, 0.2);
+    }
+
+    .link-card.highlight {
+      border-color: rgba(0, 242, 152, 0.6);
+      background: linear-gradient(135deg, rgba(0, 242, 152, 0.1) 0%, rgba(17, 20, 30, 1) 100%);
+    }
+
+    .link-card.highlight::after {
+      content: "FREE";
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      background: var(--accent-green);
+      color: #061A12;
+      padding: 2px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .card-icon {
+      font-size: 1.5rem;
+      min-width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-text {
+      text-align: left;
+      flex: 1;
+    }
+
+    .card-title {
+      display: block;
+      font-size: 0.98rem;
+    }
+
+    .card-subtitle {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 0.15rem;
+    }
+
+    .social-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: auto;
+    }
+
+    .social-btn {
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .social-btn:hover {
+      color: var(--accent-green);
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.75rem;
+      color: #555E70;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="profile-container">
+    <!-- Official Logo -->
+    <div class="avatar-wrapper">
+      <img class="avatar" src="/output/the_wealth_blueprint_logo.jpg" onerror="this.src='/static/the_wealth_blueprint_logo.jpg'" alt="The Wealth Blueprint">
+    </div>
+
+    <h1>The Wealth Blueprint <span class="verified-badge">✓</span></h1>
+    <p class="bio-tagline">
+      Decoding the money rules & banking loopholes they never taught you in school.
+    </p>
+
+    <!-- Clickable Links & Affiliate Offers -->
+    <div class="links-list">
+      <!-- 1. Free Lead Magnet -->
+      <a href="https://gumroad.com" target="_blank" class="link-card highlight">
+        <div class="card-icon">🎁</div>
+        <div class="card-text">
+          <span class="card-title">2026 Wealth Blueprint Starter Kit</span>
+          <span class="card-subtitle">Instant Download • Free Checklist & AI Tools</span>
+        </div>
+      </a>
+
+      <!-- 2. HYSA Affiliate -->
+      <a href="https://nerdwallet.com" target="_blank" class="link-card">
+        <div class="card-icon">🏦</div>
+        <div class="card-text">
+          <span class="card-title">Top 3 High-Yield Savings Accounts</span>
+          <span class="card-subtitle">Earn 4.5% - 5.0% APY on Savings (FDIC Insured)</span>
+        </div>
+      </a>
+
+      <!-- 3. Credit Card Affiliate -->
+      <a href="https://creditcards.com" target="_blank" class="link-card">
+        <div class="card-icon">💳</div>
+        <div class="card-text">
+          <span class="card-title">Best 0% APR & Travel Reward Cards</span>
+          <span class="card-subtitle">Stop Paying Interest • Fly First Class with Points</span>
+        </div>
+      </a>
+
+      <!-- 4. Top AI Tools Hub -->
+      <a href="https://notion.so" target="_blank" class="link-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-text">
+          <span class="card-title">40+ Secret AI Productivity Engines</span>
+          <span class="card-subtitle">Automate 80% of Your Daily Busywork</span>
+        </div>
+      </a>
+    </div>
+
+    <footer>
+      © 2026 The Wealth Blueprint. All rights reserved.
+    </footer>
+  </div>
+
+</body>
+</html>

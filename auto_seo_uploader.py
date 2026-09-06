@@ -61,23 +61,23 @@ def generate_video_seo(video_name: str, transcript_summary: str = "", gemini_key
             print(f"[Warning] AI SEO fallback triggered: {e}")
             
     # Pro Template SEO fallback based on filename keywords
-    is_finance = any(w in clean_name.lower() for w in ["money", "credit", "bank", "wealth", "invest", "rich", "cash", "finance"])
+    is_finance = any(w in clean_name.lower() for w in ["money", "credit", "bank", "wealth", "invest", "rich", "cash", "finance", "glitch", "loophole", "compound"])
     if is_finance:
         return {
             "youtube_title": f"{clean_name.title()} 💳 (Don't Ignore This) #Shorts",
-            "youtube_description": f"Here is what the banking system doesn't teach you about {clean_name}.\n\n📌 Free Wealth-Building Checklist in Bio!\n\n#personalfinance #moneytips #financialfreedom #wealthhabits #investing",
+            "youtube_description": f"Here is what the banking system doesn't teach you about {clean_name}.\n\n📌 Clickable Free Wealth Checklist under our channel header link!\n\n#personalfinance #moneytips #financialfreedom #wealthhabits #investing",
             "youtube_tags": ["shorts", "personal finance", "money hacks", "investing", "wealth habits", "credit score", "passive income"],
-            "youtube_pinned_comment": "💳 Grab the free wealth acceleration guide linked in my bio!",
-            "instagram_caption": f"The financial system isn't designed to teach you this. 🏦\n\nSave this reel before you forget!\n\nCheck the link in bio for the complete roadmap 📊",
+            "youtube_pinned_comment": "💳 [The Wealth Blueprint] Clickable Starter Kit linked directly on our channel banner!",
+            "instagram_caption": f"The financial system isn't designed to teach you this. 🏦\n\nSave this reel before you forget!\n\n👉 Tap the clickable link in our bio @TheWealthBlueprint for the full 2026 Blueprint 📊",
             "instagram_hashtags": "#personalfinance #moneyhacks #wealthmindset #financialeducation #investing101 #richhabits #sidehustle"
         }
     else:
         return {
             "youtube_title": f"Stop Doing This Manually 🛑 ({clean_name.title()}) #Shorts",
-            "youtube_description": f"How to automate your workflow using this secret shortcut for {clean_name}.\n\n⚡ 40+ Secret Productivity Tools in Bio!\n\n#productivity #aitools #techhacks #lifehacks #shortcuts",
+            "youtube_description": f"How to automate your workflow using this secret shortcut for {clean_name}.\n\n⚡ 40+ Secret Productivity Tools linked under our channel header!\n\n#productivity #aitools #techhacks #lifehacks #shortcuts",
             "youtube_tags": ["shorts", "tech hacks", "ai tools", "productivity", "life hacks", "software", "student hacks"],
-            "youtube_pinned_comment": "🤖 Grab the free 40+ AI & Productivity Tools cheat sheet in my bio!",
-            "instagram_caption": f"If you're still doing this manually in 2026, you're losing hours. ⏳\n\nComment 'TOOL' below and I'll DM you the link directly! 🚀",
+            "youtube_pinned_comment": "🤖 [The Wealth Blueprint] Clickable 40+ AI Tools cheat sheet under our channel header!",
+            "instagram_caption": f"If you're still doing this manually in 2026, you're losing hours. ⏳\n\n👉 Tap the clickable link in our bio @TheWealthBlueprint for the complete free AI toolkit! 🚀",
             "instagram_hashtags": "#aitools #productivityhacks #freewebsites #techtrends #lifehacks #studentlife #worksmart"
         }
 
