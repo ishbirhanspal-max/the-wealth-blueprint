@@ -9,8 +9,8 @@ VIRAL_TEMPLATES = [
         "topic": "The 15/3 Credit Card Trick",
         "title": "The Secret Credit Score Hack Nobody Teaches You 💳 #Shorts #Finance",
         "description": "How the 15/3 payment rule keeps your credit utilization below 10% and boosts your credit score.\n\n📌 Free Credit Building Checklist in Bio!\n#creditscore #moneyhacks #personalfinance",
-        "pinned_comment": "💳 Grab the free 0% interest card masterlist linked in my bio!",
-        "voiceover_text": "If you pay your credit card bill on the due date, you are quietly hurting your credit score. Banks don't report your balance on your due date. They report it on your statement closing date. That means if your limit is one thousand dollars and you spend five hundred, your utilization is reported as fifty percent, which tanks your score. Instead, use the fifteen-three trick. Pay half fifteen days before your statement, and the rest three days before. Your score will skyrocket. Follow for more money secrets.",
+        "pinned_comment": "💳 [The Wealth Blueprint] Grab the free 0% interest card masterlist linked in my bio!",
+        "voiceover_text": "If you pay your credit card bill on the due date, you are quietly hurting your credit score. Banks don't report your balance on your due date. They report it on your statement closing date. That means if your limit is one thousand dollars and you spend five hundred, your utilization is reported as fifty percent, which tanks your score. Instead, use the fifteen-three trick. Pay half fifteen days before your statement, and the rest three days before. Your score will skyrocket. Follow The Wealth Blueprint for more money secrets.",
         "search_keywords": ["credit card luxury", "counting money", "bank building", "stock market chart", "smartphone banking"]
     },
     {
