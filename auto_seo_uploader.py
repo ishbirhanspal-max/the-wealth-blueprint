@@ -65,19 +65,19 @@ def generate_video_seo(video_name: str, transcript_summary: str = "", gemini_key
     if is_finance:
         return {
             "youtube_title": f"{clean_name.title()} 💳 (Don't Ignore This) #Shorts",
-            "youtube_description": f"Here is what the banking system doesn't teach you about {clean_name}.\n\n📌 Clickable Free Wealth Checklist under our channel header link!\n\n#personalfinance #moneytips #financialfreedom #wealthhabits #investing",
+            "youtube_description": f"Here is what the banking system doesn't teach you about {clean_name}.\n\n📌 Save this video for later and subscribe for daily wealth rules!\n\n#personalfinance #moneytips #financialfreedom #wealthhabits #investing",
             "youtube_tags": ["shorts", "personal finance", "money hacks", "investing", "wealth habits", "credit score", "passive income"],
-            "youtube_pinned_comment": "💳 [The Wealth Blueprint] Clickable Starter Kit linked directly on our channel banner!",
-            "instagram_caption": f"The financial system isn't designed to teach you this. 🏦\n\nSave this reel before you forget!\n\n👉 Tap the clickable link in our bio @TheWealthBlueprint for the full 2026 Blueprint 📊",
+            "youtube_pinned_comment": "📈 [The Wealth Blueprint] Subscribe for daily wealth rules & banking loopholes!",
+            "instagram_caption": f"The financial system isn't designed to teach you this. 🏦\n\n📌 Save this reel before you forget!\n\n👉 Follow @TheWealthBlueprint for daily wealth shortcuts 📊",
             "instagram_hashtags": "#personalfinance #moneyhacks #wealthmindset #financialeducation #investing101 #richhabits #sidehustle"
         }
     else:
         return {
             "youtube_title": f"Stop Doing This Manually 🛑 ({clean_name.title()}) #Shorts",
-            "youtube_description": f"How to automate your workflow using this secret shortcut for {clean_name}.\n\n⚡ 40+ Secret Productivity Tools linked under our channel header!\n\n#productivity #aitools #techhacks #lifehacks #shortcuts",
+            "youtube_description": f"How to automate your workflow using this secret shortcut for {clean_name}.\n\n⚡ Subscribe for daily secret tools & automation hacks!\n\n#productivity #aitools #techhacks #lifehacks #shortcuts",
             "youtube_tags": ["shorts", "tech hacks", "ai tools", "productivity", "life hacks", "software", "student hacks"],
-            "youtube_pinned_comment": "🤖 [The Wealth Blueprint] Clickable 40+ AI Tools cheat sheet under our channel header!",
-            "instagram_caption": f"If you're still doing this manually in 2026, you're losing hours. ⏳\n\n👉 Tap the clickable link in our bio @TheWealthBlueprint for the complete free AI toolkit! 🚀",
+            "youtube_pinned_comment": "🤖 [The Wealth Blueprint] Subscribe for daily AI tools & productivity shortcuts!",
+            "instagram_caption": f"If you're still doing this manually in 2026, you're losing hours. ⏳\n\n📌 Save this reel and follow @TheWealthBlueprint for daily tech hacks! 🚀",
             "instagram_hashtags": "#aitools #productivityhacks #freewebsites #techtrends #lifehacks #studentlife #worksmart"
         }
 
