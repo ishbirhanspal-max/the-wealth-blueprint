@@ -444,6 +444,203 @@
       border-color: var(--accent-green);
       color: var(--accent-green);
     }
+
+    /* 15-Day Library Section */
+    .library-section {
+      max-width: 1240px;
+      margin: 3rem auto 5rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+    .library-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .library-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      letter-spacing: -0.02em;
+    }
+    .library-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .post-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+    .post-card:hover {
+      border-color: var(--accent-green);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 242, 152, 0.1);
+    }
+    .post-thumb-wrap {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      overflow: hidden;
+      background: #000;
+      cursor: pointer;
+    }
+    .post-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.3s ease;
+    }
+    .post-thumb-wrap:hover .post-thumb-img {
+      transform: scale(1.04);
+    }
+    .play-badge-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .post-thumb-wrap:hover .play-badge-overlay {
+      opacity: 1;
+    }
+    .play-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      color: #061A12;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 0 20px rgba(0,242,152,0.6);
+      padding-left: 3px;
+    }
+    .post-body {
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .pill-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .day-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(0,242,152,0.12);
+      color: var(--accent-green);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .cat-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(0,212,255,0.12);
+      color: var(--accent-cyan);
+    }
+    .post-h3 {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+      line-height: 1.35;
+      min-height: 2.7rem;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-top: auto;
+    }
+    .btn-copy {
+      background: #1A1F2C;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .btn-copy:hover {
+      background: #252C3E;
+      color: var(--text-main);
+      border-color: var(--accent-cyan);
+    }
+    .btn-play-now {
+      background: linear-gradient(135deg, #00F298 0%, #00D4FF 100%);
+      color: #061A12;
+      border: none;
+      padding: 0.55rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-play-now:hover {
+      box-shadow: 0 0 15px rgba(0,242,152,0.4);
+      transform: scale(1.02);
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #00F298;
+      color: #061A12;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(10px);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -559,13 +756,116 @@
     </div>
   </main>
 
+  <!-- 15-Day Complete Content Library Section -->
+  <section class="library-section">
+    <div class="library-header">
+      <div>
+        <div class="library-title">
+          <span>📁</span> 15-Day Ready-to-Publish Video Library
+        </div>
+        <p class="library-subtitle">15 completed 1080x1920 videos with neural voiceovers, lo-fi beats, and 1-click viral SEO packages</p>
+      </div>
+      <div class="status-badge" style="background: rgba(0, 212, 255, 0.1); border-color: rgba(0, 212, 255, 0.3); color: var(--accent-cyan);">
+        <span>✓</span> 15 of 15 Ready to Post
+      </div>
+    </div>
+
+    <div id="libraryGrid" class="library-grid">
+      <!-- Injected via JavaScript -->
+    </div>
+  </section>
+
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
   <script>
     let currentNiche = 'finance';
+    let libraryData = [];
 
     function selectNiche(niche, el) {
       currentNiche = niche;
       document.querySelectorAll('.niche-opt').forEach(opt => opt.classList.remove('active'));
       el.classList.add('active');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function copyText(text, msg) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(msg);
+      }).catch(err => {
+        console.error("Copy failed:", err);
+      });
+    }
+
+    function playDayVideo(index) {
+      const item = libraryData[index];
+      if (!item || !item.video_url) return;
+
+      const player = document.getElementById('player');
+      player.src = item.video_url;
+      player.play();
+
+      document.getElementById('overlayTitle').innerText = item.title;
+      document.getElementById('metaComment').innerText = "📌 Pinned Comment:\n" + (item.youtube_description.split('📌 PINNED COMMENT TO ENGAGE AUDIENCE:')[1] || "").trim();
+      document.getElementById('downloadLink').href = item.video_url;
+      document.getElementById('downloadLink').setAttribute('download', `day${String(item.day).padStart(2, '0')}_The_Wealth_Blueprint.mp4`);
+
+      // Smooth scroll back up to preview player
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast(`Now Playing Day ${item.day}: ${item.title.substring(0, 30)}...`);
+    }
+
+    async function loadLibrary() {
+      try {
+        const res = await fetch('/api/posts_library');
+        libraryData = await res.json();
+        const grid = document.getElementById('libraryGrid');
+        grid.innerHTML = '';
+
+        libraryData.forEach((item, idx) => {
+          const card = document.createElement('div');
+          card.className = 'post-card';
+          card.innerHTML = `
+            <div class="post-thumb-wrap" onclick="playDayVideo(${idx})">
+              <img class="post-thumb-img" src="${item.image_url}" alt="Day ${item.day}" loading="lazy">
+              <div class="play-badge-overlay">
+                <div class="play-circle">▶</div>
+              </div>
+            </div>
+            <div class="post-body">
+              <div class="pill-row">
+                <span class="day-pill">Day ${String(item.day).padStart(2, '0')}</span>
+                <span class="cat-pill">${item.category}</span>
+              </div>
+              <h3 class="post-h3">${item.title}</h3>
+              <div class="btn-group">
+                <button class="btn-play-now" onclick="playDayVideo(${idx})">
+                  <span>▶</span> Play Video in Studio
+                </button>
+                <div style="display: flex; gap: 0.4rem;">
+                  <button class="btn-copy" style="flex: 1;" onclick="copyText(libraryData[${idx}].title + '\\n\\n' + libraryData[${idx}].youtube_description, 'YouTube SEO & Description Copied!')">
+                    <span>📋</span> YouTube SEO
+                  </button>
+                  <button class="btn-copy" style="flex: 1;" onclick="copyText(libraryData[${idx}].instagram_caption, 'Instagram Caption & Hashtags Copied!')">
+                    <span>📸</span> IG Caption
+                  </button>
+                </div>
+                <a href="${item.video_url}" download="day${String(item.day).padStart(2, '0')}_The_Wealth_Blueprint.mp4" class="btn-copy" style="text-decoration: none; justify-content: center; background: #131A27;">
+                  <span>⬇️</span> Download 1080x1920 MP4
+                </a>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error("Error loading library:", err);
+      }
     }
 
     async function triggerGeneration() {
@@ -630,6 +930,10 @@
         btn.innerHTML = '<span>🚀</span> Generate Automated Reel / Short Now';
       }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadLibrary();
+    });
   </script>
 </body>
 </html>

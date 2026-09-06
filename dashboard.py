@@ -14,8 +14,14 @@ WEB_DIR = os.path.join(BASE_DIR, "web")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(WEB_DIR, exist_ok=True)
 
+POSTS_DIR = os.path.join(BASE_DIR, "posts_15_days")
+POSTS_VIDEOS_DIR = os.path.join(POSTS_DIR, "ready_videos")
+os.makedirs(POSTS_VIDEOS_DIR, exist_ok=True)
+
 app.mount("/output", StaticFiles(directory=OUTPUT_DIR), name="output")
 app.mount("/static", StaticFiles(directory=WEB_DIR), name="static")
+app.mount("/ready_videos", StaticFiles(directory=POSTS_VIDEOS_DIR), name="ready_videos")
+app.mount("/posts_images", StaticFiles(directory=POSTS_DIR), name="posts_images")
 
 class GenerateRequest(BaseModel):
     niche: str = "finance"
@@ -56,6 +62,31 @@ def get_latest():
             "niche": "finance"
         }
     return {"message": "No video generated yet"}
+
+@app.get("/api/posts_library")
+def get_posts_library():
+    items = []
+    for day in range(1, 16):
+        mp4_name = f"day{day:02d}_The_Wealth_Blueprint.mp4"
+        mp4_path = os.path.join(POSTS_VIDEOS_DIR, mp4_name)
+        img_name = f"day{day:02d}_render_day{day:02d}.png"
+        seo_path = os.path.join(POSTS_VIDEOS_DIR, f"day{day:02d}_seo.json")
+        seo_info = {}
+        if os.path.exists(seo_path):
+            with open(seo_path, "r", encoding="utf-8") as f:
+                seo_info = json.load(f)
+        items.append({
+            "day": day,
+            "ready": os.path.exists(mp4_path),
+            "video_url": f"/ready_videos/{mp4_name}" if os.path.exists(mp4_path) else None,
+            "image_url": f"/posts_images/{img_name}",
+            "title": seo_info.get("title", f"Day {day:02d} Video"),
+            "category": seo_info.get("category", "Finance"),
+            "script": seo_info.get("script", ""),
+            "youtube_description": seo_info.get("youtube_description", ""),
+            "instagram_caption": seo_info.get("instagram_caption", "")
+        })
+    return items
 
 @app.post("/api/generate")
 def generate_video(req: GenerateRequest):
