@@ -104,7 +104,7 @@ def process_and_upload(video_path: str, upload_to_youtube: bool = True):
     
     # 2. Upload to YouTube Shorts
     if upload_to_youtube:
-        print("\n>> [2/3] Uploading to YouTube Shorts...")
+        print("\n>> [2/4] Uploading to YouTube Shorts...")
         try:
             from youtube_uploader import upload_short_to_youtube
             yt_url = upload_short_to_youtube(
@@ -120,10 +120,25 @@ def process_and_upload(video_path: str, upload_to_youtube: bool = True):
             print(f"[Notice] YouTube upload pending API authorization: {e}")
             print("         (Video and SEO package are prepared and ready to publish!)")
             
-    # 3. Move video to published archive
+    # 3. Upload to Instagram Reels
+    print("\n>> [3/4] Uploading to Instagram Reels...")
+    try:
+        from instagram_uploader import publish_to_instagram
+        ig_url = publish_to_instagram(
+            video_path=video_path,
+            caption=seo_data.get("instagram_caption", ""),
+            hashtags=seo_data.get("instagram_hashtags", "")
+        )
+        if ig_url:
+            seo_data["instagram_url"] = ig_url
+            print(f"[SUCCESS] Uploaded to Instagram: {ig_url}")
+    except Exception as e:
+        print(f"[Notice] Instagram upload pending: {e}")
+            
+    # 4. Move video to published archive
     dest_path = os.path.join(PUBLISHED_DIR, filename)
     shutil.move(video_path, dest_path)
-    print(f"\n>> [3/3] Video moved to archive: {dest_path}")
+    print(f"\n>> [4/4] Video moved to archive: {dest_path}")
     print("============================================================\n")
 
 def watch_folder(poll_interval: int = 5):
