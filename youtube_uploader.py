@@ -1,5 +1,13 @@
 import os
+import sys
 import json
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -36,10 +44,13 @@ def upload_short_to_youtube(
     description: str,
     tags: list = None,
     pinned_comment: str = None,
-    privacy_status: str = "public"
+    privacy_status: str = "public",
+    publish_at: str = None
 ):
     """
     Uploads 9:16 video to YouTube as a #Shorts and auto-pins affiliate comment.
+    If publish_at is provided (ISO 8601 string, e.g. 2026-09-07T06:30:00Z), 
+    the video is uploaded as Scheduled.
     """
     if not os.path.exists(video_path):
         raise FileNotFoundError(f"Video file not found: {video_path}")
@@ -50,6 +61,13 @@ def upload_short_to_youtube(
     if "#Shorts" not in title and "#shorts" not in title:
         title = f"{title} #Shorts"
         
+    status_dict = {
+        "privacyStatus": "private" if publish_at else privacy_status,
+        "selfDeclaredMadeForKids": False
+    }
+    if publish_at:
+        status_dict["publishAt"] = publish_at
+        
     body = {
         "snippet": {
             "title": title[:100],
@@ -57,10 +75,7 @@ def upload_short_to_youtube(
             "tags": tags or ["shorts", "finance", "money", "sidehustle"],
             "categoryId": "27" # Education
         },
-        "status": {
-            "privacyStatus": privacy_status,
-            "selfDeclaredMadeForKids": False
-        }
+        "status": status_dict
     }
     
     media = MediaFileUpload(video_path, chunksize=-1, resumable=True, mimetype="video/mp4")

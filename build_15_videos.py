@@ -147,8 +147,8 @@ def build_single_video(day_num: int):
         "-i", voice_path,
         "-stream_loop", "-1", "-i", BGM_PATH,
         "-filter_complex",
-        "[1:a]volume=1.25[a1];"
-        "[2:a]volume=0.20[a2];"
+        "[1:a]volume=1.20[a1];"
+        "[2:a]volume=0.45[a2];"
         "[a1][a2]amix=inputs=2:duration=first[aout]",
         "-map", "0:v",
         "-map", "[aout]",

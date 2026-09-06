@@ -59,7 +59,7 @@ def upload_reel_graph_api(video_url: str, caption: str, access_token: str, ig_us
     else:
         raise RuntimeError(f"Failed to publish Instagram Reel: {pub_data}")
 
-def upload_reel_direct(video_path: str, caption: str, username: str, password: str) -> str:
+def upload_reel_direct(video_path: str, caption: str, username: str = None, password: str = None) -> str:
     """
     Direct upload using instagrapi (does not require a Meta developer app).
     """
@@ -67,12 +67,24 @@ def upload_reel_direct(video_path: str, caption: str, username: str, password: s
         from instagrapi import Client
         cl = Client()
         session_file = os.path.join(os.path.dirname(__file__), "ig_session.json")
+        
+        session_env = os.environ.get("INSTAGRAM_SESSION_JSON")
+        if session_env and not os.path.exists(session_file):
+            with open(session_file, "w", encoding="utf-8") as f:
+                f.write(session_env)
+
+        session_valid = False
         if os.path.exists(session_file):
-            cl.load_settings(session_file)
+            try:
+                cl.load_settings(session_file)
+                session_valid = True
+            except Exception:
+                pass
             
-        print(f">> [Instagram] Logging in as @{username}...")
-        cl.login(username, password)
-        cl.dump_settings(session_file)
+        if not session_valid and username and password:
+            print(f">> [Instagram] Logging in as @{username}...")
+            cl.login(username, password)
+            cl.dump_settings(session_file)
         
         print(f">> [Instagram] Uploading Reel: {os.path.basename(video_path)}...")
         media = cl.clip_upload(video_path, caption=caption)
@@ -90,7 +102,7 @@ def publish_to_instagram(video_path: str, caption: str, hashtags: str = "") -> s
     """
     Universal Instagram publisher: checks for Graph API tokens or direct credentials.
     """
-    full_caption = f"{caption}\n\n.\n.\n.\n{hashtags}"
+    full_caption = f"{caption}\n\n.\n.\n.\n{hashtags}" if hashtags else caption
     
     # 1. Check Official Graph API
     ig_token = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
@@ -100,10 +112,12 @@ def publish_to_instagram(video_path: str, caption: str, hashtags: str = "") -> s
     if ig_token and ig_user_id and public_video_url:
         return upload_reel_graph_api(public_video_url, full_caption, ig_token, ig_user_id)
         
-    # 2. Check Direct Credentials
+    # 2. Check Direct Credentials or Saved Session
     ig_user = os.environ.get("INSTAGRAM_USERNAME")
     ig_pass = os.environ.get("INSTAGRAM_PASSWORD")
-    if ig_user and ig_pass:
+    ig_session_env = os.environ.get("INSTAGRAM_SESSION_JSON")
+    session_file = os.path.join(os.path.dirname(__file__), "ig_session.json")
+    if (ig_user and ig_pass) or ig_session_env or os.path.exists(session_file):
         return upload_reel_direct(video_path, full_caption, ig_user, ig_pass)
         
     print("[Notice] Instagram credentials not configured. Skipping Instagram upload.")

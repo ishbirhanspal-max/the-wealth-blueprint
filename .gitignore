@@ -4,3 +4,8 @@ assets/
 output/*.mp4
 token.json
 client_secret.json
+.env
+ig_session.json
+ig_cookies.json
+scratch/
+output/temp_cloud/

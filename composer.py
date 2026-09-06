@@ -42,8 +42,8 @@ def compose_video(
         "-stream_loop", "-1", "-i", os.path.abspath(bg_music_path).replace("\\", "/"),
         "-filter_complex",
         f"[0:v]subtitles='{escaped_ass}'[v_sub];"
-        f"[1:a]volume=1.1[v_voice];"
-        f"[2:a]volume=0.18[v_bgm];"
+        f"[1:a]volume=1.15[v_voice];"
+        f"[2:a]volume=0.45[v_bgm];"
         f"[v_voice][v_bgm]amix=inputs=2:duration=first:dropout_transition=2[a_out]",
         "-map", "[v_sub]",
         "-map", "[a_out]",

@@ -305,8 +305,8 @@ def assemble_mp4(img_path: str, voice_path: str, out_mp4: str):
         "-i", voice_path,
         "-stream_loop", "-1", "-i", BGM_PATH,
         "-filter_complex",
-        "[1:a]volume=1.25[a1];"
-        "[2:a]volume=0.20[a2];"
+        "[1:a]volume=1.20[a1];"
+        "[2:a]volume=0.45[a2];"
         "[a1][a2]amix=inputs=2:duration=first[aout]",
         "-map", "0:v",
         "-map", "[aout]",
@@ -441,8 +441,14 @@ Check our channel bio: @TheWealthBlueprint
     ig_user = os.environ.get("INSTAGRAM_USERNAME")
     ig_pass = os.environ.get("INSTAGRAM_PASSWORD")
     ig_token = os.environ.get("INSTAGRAM_ACCESS_TOKEN")
+    ig_session_env = os.environ.get("INSTAGRAM_SESSION_JSON")
+    session_file = os.path.join(BASE_DIR, "ig_session.json")
 
-    if (ig_user and ig_pass) or ig_token:
+    if ig_session_env and not os.path.exists(session_file):
+        with open(session_file, "w", encoding="utf-8") as f:
+            f.write(ig_session_env)
+
+    if (ig_user and ig_pass) or ig_token or ig_session_env or os.path.exists(session_file):
         try:
             from instagram_uploader import publish_to_instagram
             ig_url = publish_to_instagram(
