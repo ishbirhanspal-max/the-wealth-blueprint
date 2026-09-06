@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autopilot Shorts & Reels Creator | Live Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090B10;
+      --card-bg: #11141E;
+      --card-border: #1E2333;
+      --accent-green: #00F298;
+      --accent-cyan: #00D4FF;
+      --accent-purple: #8B5CF6;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(0, 242, 152, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 40%);
+    }
+
+    header {
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(9, 11, 16, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00F298 0%, #00D4FF 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 242, 152, 0.3);
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #061A12;
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 242, 152, 0.1);
+      border: 1px solid rgba(0, 242, 152, 0.3);
+      color: var(--accent-green);
+      font-size: 0.85rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.15); }
+    }
+
+    .main-container {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2.5rem;
+      padding: 2.5rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      flex: 1;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .niche-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .niche-opt {
+      border: 1.5px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 14px;
+      padding: 1.15rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .niche-opt:hover {
+      border-color: rgba(0, 242, 152, 0.4);
+      background: rgba(0, 242, 152, 0.04);
+    }
+
+    .niche-opt.active {
+      border-color: var(--accent-green);
+      background: rgba(0, 242, 152, 0.08);
+    }
+
+    .niche-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .rpm-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      background: rgba(0, 242, 152, 0.15);
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .niche-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    select, input {
+      width: 100%;
+      background: #0B0E17;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 1.15rem;
+      background: linear-gradient(135deg, #00F298 0%, #00D4FF 100%);
+      color: #051810;
+      border: none;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 24px rgba(0, 242, 152, 0.25);
+      margin-top: 1rem;
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 242, 152, 0.4);
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .stepper {
+      margin-top: 1.75rem;
+      background: #0B0E17;
+      border-radius: 14px;
+      padding: 1.25rem;
+      border: 1px solid var(--card-border);
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.65rem 0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .step-item:last-child {
+      border-bottom: none;
+    }
+
+    .step-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #1A1F2C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .step-item.active .step-icon {
+      background: var(--accent-cyan);
+      color: #071520;
+    }
+
+    .step-item.completed .step-icon {
+      background: var(--accent-green);
+      color: #061A12;
+    }
+
+    .step-item.completed {
+      color: var(--text-main);
+    }
+
+    /* Phone Mockup */
+    .preview-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .phone-frame {
+      width: 340px;
+      height: 680px;
+      background: #000;
+      border-radius: 46px;
+      border: 10px solid #1C2130;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 242, 152, 0.15);
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 24px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 20;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Shorts UI Overlay */
+    .shorts-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.25rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .overlay-user {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00F298, #00D4FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #000;
+    }
+
+    .user-handle {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .sub-btn {
+      background: #fff;
+      color: #000;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-left: 0.25rem;
+    }
+
+    .overlay-title {
+      font-size: 0.85rem;
+      line-height: 1.35;
+      color: #eee;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .affiliate-banner {
+      background: rgba(0, 242, 152, 0.2);
+      border: 1px solid var(--accent-green);
+      backdrop-filter: blur(8px);
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .meta-box {
+      width: 100%;
+      max-width: 340px;
+      margin-top: 1.5rem;
+      background: #11141E;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+
+    .meta-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .meta-content {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 0.85rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.85rem;
+      background: #1A1F2C;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .download-btn:hover {
+      background: #252C3E;
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <h1>Autopilot Shorts Creator</h1>
+        <p style="font-size: 0.75rem; color: var(--text-muted);">100% Automated Faceless Video Production</p>
+      </div>
+    </div>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      Cloud Engine Ready
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Left Column: Controls & Pipeline -->
+    <div class="card">
+      <div class="card-title">
+        <span>⚙️</span> Content Engine Settings
+      </div>
+
+      <label>SELECT HIGH-RPM NICHE</label>
+      <div class="niche-grid">
+        <div class="niche-opt active" onclick="selectNiche('finance', this)">
+          <div class="niche-header">
+            <span>Smart Money & Wealth</span>
+            <span class="rpm-tag">RPM $6-$14</span>
+          </div>
+          <p class="niche-desc">Bank loopholes, compound interest, credit score glitches, investing hacks.</p>
+        </div>
+        <div class="niche-opt" onclick="selectNiche('tech_ai', this)">
+          <div class="niche-header">
+            <span>Secret AI Tools</span>
+            <span class="rpm-tag">RPM $4-$9</span>
+          </div>
+          <p class="niche-desc">Websites that feel illegal, AI homework tools, digital productivity shortcuts.</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>NEURAL NARRATOR VOICE</label>
+        <select id="voiceSelect">
+          <option value="en-US-ChristopherNeural">Christopher (Deep, Authoritative, High-Retention) [US Male]</option>
+          <option value="en-US-EricNeural">Eric (Energetic, Dynamic Tech Narrator) [US Male]</option>
+        </select>
+      </div>
+
+      <button id="generateBtn" class="generate-btn" onclick="triggerGeneration()">
+        <span>🚀</span> Generate Automated Reel / Short Now
+      </button>
+
+      <!-- Stepper / Execution Tracker -->
+      <div class="stepper">
+        <div class="step-item completed" id="step1">
+          <div class="step-icon">✓</div>
+          <span>1. High-Retention Script Generated</span>
+        </div>
+        <div class="step-item completed" id="step2">
+          <div class="step-icon">✓</div>
+          <span>2. Neural Voiceover & Subtitles Synced</span>
+        </div>
+        <div class="step-item completed" id="step3">
+          <div class="step-icon">✓</div>
+          <span>3. Ducked Ambient Music Synthesized</span>
+        </div>
+        <div class="step-item completed" id="step4">
+          <div class="step-icon">✓</div>
+          <span>4. 9:16 Visual B-Roll Composited</span>
+        </div>
+        <div class="step-item completed" id="step5">
+          <div class="step-icon">✓</div>
+          <span>5. Kinetic Subtitles Burned & Video Exported</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Live Phone Mockup Preview -->
+    <div class="preview-col">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <video id="player" controls autoplay loop playsinline>
+          <source src="/output/latest_short.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+        <div class="shorts-overlay">
+          <div class="overlay-user">
+            <div class="user-avatar">💰</div>
+            <span class="user-handle">@AutopilotWealth</span>
+            <span class="sub-btn">Subscribe</span>
+          </div>
+          <div id="overlayTitle" class="overlay-title">
+            The Secret Credit Score Hack Nobody Teaches You 💳 #Shorts #Finance
+          </div>
+          <div class="affiliate-banner">
+            <span>🔗</span> <span id="affiliateBannerText">Free 0% Card Guide in Bio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-box">
+        <div class="meta-title">Pinned Comment (Monetization Engine)</div>
+        <div id="metaComment" class="meta-content">
+          💳 Grab the free 0% interest card masterlist linked in my bio!
+        </div>
+        <a id="downloadLink" href="/output/latest_short.mp4" download="autopilot_short.mp4" class="download-btn">
+          <span>⬇️</span> Download 1080x1920 MP4
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentNiche = 'finance';
+
+    function selectNiche(niche, el) {
+      currentNiche = niche;
+      document.querySelectorAll('.niche-opt').forEach(opt => opt.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    async function triggerGeneration() {
+      const btn = document.getElementById('generateBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Rendering Autopilot Video...';
+
+      // Reset steps
+      for (let i = 1; i <= 5; i++) {
+        const s = document.getElementById(`step${i}`);
+        s.className = 'step-item';
+        s.querySelector('.step-icon').innerText = i;
+      }
+
+      // Simulate active progress steps
+      let currentStep = 1;
+      const interval = setInterval(() => {
+        if (currentStep <= 5) {
+          const s = document.getElementById(`step${currentStep}`);
+          s.className = 'step-item active';
+          s.querySelector('.step-icon').innerText = '•';
+          if (currentStep > 1) {
+            const prev = document.getElementById(`step${currentStep - 1}`);
+            prev.className = 'step-item completed';
+            prev.querySelector('.step-icon').innerText = '✓';
+          }
+          currentStep++;
+        }
+      }, 2500);
+
+      try {
+        const voice = document.getElementById('voiceSelect').value;
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ niche: currentNiche, voice: voice })
+        });
+        const data = await res.json();
+        
+        clearInterval(interval);
+        for (let i = 1; i <= 5; i++) {
+          const s = document.getElementById(`step${i}`);
+          s.className = 'step-item completed';
+          s.querySelector('.step-icon').innerText = '✓';
+        }
+
+        // Update video player
+        const player = document.getElementById('player');
+        player.src = data.video_url + '?t=' + new Date().getTime();
+        player.play();
+
+        // Update overlay
+        document.getElementById('overlayTitle').innerText = data.title;
+        document.getElementById('metaComment').innerText = data.pinned_comment;
+        document.getElementById('downloadLink').href = data.video_url;
+
+      } catch (err) {
+        console.error("Generation error:", err);
+        alert("Generation encountered an error. Check server console.");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🚀</span> Generate Automated Reel / Short Now';
+      }
+    }
+  </script>
+</body>
+</html>

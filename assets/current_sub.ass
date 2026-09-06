@@ -1,0 +1,37 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: ViralStyle,Arial,58,&H002EFFFF,&H000000FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,6,3,2,60,60,520,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.10,0:00:01.18,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\MOST PEOPLE HAVE NO
+Dialogue: 0,0:00:01.18,0:00:02.26,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\IDEA HOW LONG IT
+Dialogue: 0,0:00:02.26,0:00:03.35,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\TAKES TO DOUBLE THEIR
+Dialogue: 0,0:00:03.35,0:00:04.43,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\MONEY.
+Dialogue: 0,0:00:04.38,0:00:06.16,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\BILLIONAIRES USE ONE SIMPLE
+Dialogue: 0,0:00:06.16,0:00:07.93,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\MENTAL MATH RULE.
+Dialogue: 0,0:00:07.93,0:00:09.34,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\IT IS CALLED THE
+Dialogue: 0,0:00:09.34,0:00:10.75,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\RULE OF 72.
+Dialogue: 0,0:00:10.75,0:00:12.24,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\TAKE THE NUMBER 72
+Dialogue: 0,0:00:12.24,0:00:13.73,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\AND DIVIDE IT BY
+Dialogue: 0,0:00:13.73,0:00:15.22,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\YOUR ANNUAL INTEREST RATE.
+Dialogue: 0,0:00:15.22,0:00:16.42,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\IF YOUR MONEY SITS
+Dialogue: 0,0:00:16.42,0:00:17.61,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\IN AN ORDINARY BANK
+Dialogue: 0,0:00:17.61,0:00:18.81,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\ACCOUNT EARNING HALF A
+Dialogue: 0,0:00:18.81,0:00:20.00,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\PERCENT, IT WILL TAKE
+Dialogue: 0,0:00:20.00,0:00:21.20,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\ONE HUNDRED AND FORTY-FOUR
+Dialogue: 0,0:00:21.20,0:00:22.40,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\YEARS TO DOUBLE.
+Dialogue: 0,0:00:22.40,0:00:23.90,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\BUT PUT THAT MONEY
+Dialogue: 0,0:00:23.90,0:00:25.41,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\INTO THE SP 500
+Dialogue: 0,0:00:25.41,0:00:26.92,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\AVERAGING TEN PERCENT, AND
+Dialogue: 0,0:00:26.92,0:00:28.43,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\YOUR WEALTH DOUBLES EVERY
+Dialogue: 0,0:00:28.43,0:00:29.93,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\SEVEN POINT TWO YEARS.
+Dialogue: 0,0:00:29.93,0:00:31.36,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\LET COMPOUND INTEREST DO
+Dialogue: 0,0:00:31.36,0:00:32.78,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\THE WORK.
+Dialogue: 0,0:00:32.78,0:00:35.07,ViralStyle,,0,0,0,,{\b1}\c&H002EFFFF\FREE GUIDE IN BIO.

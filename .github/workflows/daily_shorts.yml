@@ -1,0 +1,43 @@
+name: Autopilot Shorts & Reels Creator
+
+on:
+  schedule:
+    # Runs twice every day automatically (e.g. 11:00 AM EST and 7:00 PM EST)
+    - cron: '0 15 * * *'
+    - cron: '0 23 * * *'
+  workflow_dispatch: # Allows manual 1-click trigger from GitHub Actions tab
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install System Dependencies & FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python Requirements
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Autopilot Video Generator & Publisher
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          YOUTUBE_TOKEN_JSON: ${{ secrets.YOUTUBE_TOKEN_JSON }}
+        run: |
+          python main.py --niche finance --upload
+
+      - name: Upload Video Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-generated-short
+          path: output/latest_short.mp4
