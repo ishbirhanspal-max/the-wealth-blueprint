@@ -86,8 +86,27 @@ def upload_reel_direct(video_path: str, caption: str, username: str = None, pass
             cl.login(username, password)
             cl.dump_settings(session_file)
         
+        # Generate high-quality JPEG thumbnail to prevent MoviePy dependency errors
+        thumb_path = os.path.splitext(video_path)[0] + "_thumb.jpg"
+        if not os.path.exists(thumb_path):
+            png_candidate = os.path.splitext(video_path)[0] + ".png"
+            if os.path.exists(png_candidate):
+                try:
+                    from PIL import Image
+                    Image.open(png_candidate).convert("RGB").save(thumb_path, "JPEG", quality=95)
+                except Exception:
+                    pass
+            if not os.path.exists(thumb_path):
+                try:
+                    import imageio_ffmpeg, subprocess
+                    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+                    cmd = [ffmpeg, "-y", "-ss", "00:00:01", "-i", video_path, "-vframes", "1", "-q:v", "2", thumb_path]
+                    subprocess.run(cmd, capture_output=True)
+                except Exception:
+                    pass
+
         print(f">> [Instagram] Uploading Reel: {os.path.basename(video_path)}...")
-        media = cl.clip_upload(video_path, caption=caption)
+        media = cl.clip_upload(video_path, caption=caption, thumbnail=thumb_path if os.path.exists(thumb_path) else None)
         reel_url = f"https://www.instagram.com/reel/{media.code}/"
         print(f">> [Instagram] Published successfully! URL: {reel_url}")
         return reel_url

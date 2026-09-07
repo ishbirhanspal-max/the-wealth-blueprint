@@ -167,123 +167,127 @@ def strip_emojis(text: str) -> str:
     return "".join(c for c in text if ord(c) < 128 or c in "₹$€£%+-•./'\"()[]:").strip()
 
 def render_poster(item: dict, out_png: str):
-    """Renders pixel-perfect 1080x1920 infographic with auto-sized headlines and bounded text."""
+    """Renders pixel-perfect 1080x1920 infographic with strict mobile Reels/Shorts safe zone (no cutoff)."""
     img = Image.new("RGB", (1080, 1920), color=BG_COLOR)
     draw = ImageDraw.Draw(img)
 
-    # Grid background
-    for gy in range(120, 1850, 130):
+    # Background subtle grid lines
+    for gy in range(150, 1850, 110):
         draw.line([(50, gy), (1030, gy)], fill=GRID_COLOR, width=1)
-    for gx in range(50, 1050, 140):
-        draw.line([(gx, 120), (gx, 1850)], fill=GRID_COLOR, width=1)
+    for gx in range(50, 1050, 120):
+        draw.line([(gx, 150), (gx, 1850)], fill=GRID_COLOR, width=1)
 
-    # Top Left: FOLLOW / SUBSCRIBE Pill
-    pill_text = "FOLLOW / SUBSCRIBE"
-    pill_font = get_font(24, bold=True)
-    pill_w = 380
-    draw_card(draw, 70, 75, pill_w, 52, border_color=GREEN, bg_color=(10, 28, 22), radius=26, border_width=2)
-    p_bbox = pill_font.getbbox(pill_text)
-    p_tx = 70 + (pill_w - (p_bbox[2] - p_bbox[0])) // 2
-    p_ty = 75 + (52 - (p_bbox[3] - p_bbox[1])) // 2
-    draw.text((p_tx, p_ty), pill_text, fill=GREEN, font=pill_font)
+    # SAFE ZONE COORDINATES:
+    # Left margin = 90, Card width = 840 (Right edge = 930 -> leaves 150px for like/comment buttons!)
+    # Top safe start = Y 215, Bottom safe limit = Y 1405 (leaves 515px for IG caption/audio overlay!)
+    cx_left = 90
+    cw = 840
 
-    # Top Right: CATEGORY Pill
+    # 1. Category and Brand Top Badges (Y = 215 to 260)
+    pill_font = get_font(20, bold=True)
+    
+    # Left: THE WEALTH BLUEPRINT
+    brand_text = "THE WEALTH BLUEPRINT"
+    b_w = 320
+    draw_card(draw, cx_left, 215, b_w, 44, border_color=GREEN, bg_color=(10, 28, 22), radius=22, border_width=2)
+    b_bbox = pill_font.getbbox(brand_text)
+    b_tx = cx_left + (b_w - (b_bbox[2] - b_bbox[0])) // 2
+    b_ty = 215 + (44 - (b_bbox[3] - b_bbox[1])) // 2
+    draw.text((b_tx, b_ty), brand_text, fill=GREEN, font=pill_font)
+
+    # Right: Category
     cat_prefix = "[INDIA] " if item.get("region") == "INDIA" else ""
-    cat_text = f"CATEGORY: {cat_prefix}{strip_emojis(item['category']).upper()}"
-    cat_font = get_font(22, bold=True)
-    cat_w = 460
-    draw_card(draw, 550, 75, cat_w, 52, border_color=GOLD, bg_color=(28, 24, 10), radius=26, border_width=2)
-    c_bbox = cat_font.getbbox(cat_text)
-    c_tx = 550 + (cat_w - (c_bbox[2] - c_bbox[0])) // 2
-    c_ty = 75 + (52 - (c_bbox[3] - c_bbox[1])) // 2
-    draw.text((c_tx, c_ty), cat_text, fill=GOLD, font=cat_font)
+    cat_text = f"{cat_prefix}{strip_emojis(item['category']).upper()}"
+    cat_w = 400
+    cat_x = cx_left + cw - cat_w
+    draw_card(draw, cat_x, 215, cat_w, 44, border_color=GOLD, bg_color=(28, 24, 10), radius=22, border_width=2)
+    c_bbox = pill_font.getbbox(cat_text)
+    c_tx = cat_x + (cat_w - (c_bbox[2] - c_bbox[0])) // 2
+    c_ty = 215 + (44 - (c_bbox[3] - c_bbox[1])) // 2
+    draw.text((c_tx, c_ty), cat_text, fill=GOLD, font=pill_font)
 
-    # Main Headline (Auto-fit to 940px)
+    # 2. Main Hook Headline (Y = 275 to 335)
     title = strip_emojis(item["title"].split("#")[0]).strip()
-    title_size = 50
+    title_size = 40
     title_font = get_font(title_size, bold=True)
     t_bbox = title_font.getbbox(title)
-    while (t_bbox[2] - t_bbox[0]) > 940 and title_size > 26:
+    while (t_bbox[2] - t_bbox[0]) > (cw - 20) and title_size > 24:
         title_size -= 2
         title_font = get_font(title_size, bold=True)
         t_bbox = title_font.getbbox(title)
-    draw.text((70, 150), title, fill=WHITE, font=title_font)
+    draw.text((cx_left, 275), title, fill=WHITE, font=title_font)
 
-    # Subtitle Hook
+    # Subtitle Hook (Y = 335 to 365)
     sub = item["sub"]
-    sub_size = 25
-    sub_font = get_font(sub_size, bold=False)
-    s_bbox = sub_font.getbbox(sub)
-    while (s_bbox[2] - s_bbox[0]) > 940 and sub_size > 18:
-        sub_size -= 1
-        sub_font = get_font(sub_size, bold=False)
-        s_bbox = sub_font.getbbox(sub)
-    draw.text((70, 218), sub, fill=MUTED, font=sub_font)
+    sub_font = get_font(21, bold=False)
+    draw.text((cx_left, 335), sub, fill=MUTED, font=sub_font)
 
-    h2_font = get_font(32, bold=True)
-    body_font = get_font(26, bold=False)
-    stat_font = get_font(30, bold=True)
+    h2_font = get_font(27, bold=True)
+    body_font = get_font(22, bold=False)
+    stat_font = get_font(25, bold=True)
 
-    # --- Card 1: Mistake / Warning ---
-    c1_y, c1_h = 270, 420
-    draw_card(draw, 70, c1_y, 940, c1_h, border_color=RED, bg_color=(24, 12, 16))
-    draw.text((110, c1_y + 30), f"[!]  {item['c1_t']}", fill=RED, font=h2_font)
+    # 3. Card 1: Mistake / Trap (Y = 385 to 645, H = 260)
+    c1_y, c1_h = 385, 260
+    draw_card(draw, cx_left, c1_y, cw, c1_h, border_color=RED, bg_color=(24, 12, 16))
+    draw.text((cx_left + 35, c1_y + 22), f"[!]  {item['c1_t']}", fill=RED, font=h2_font)
     b1_fn = BADGE_MAP.get(item.get("b1", "warning"), draw_warning_badge)
-    b1_fn(draw, 920, c1_y + 80, size=46)
+    b1_fn(draw, cx_left + cw - 55, c1_y + 36, size=38)
 
-    lines1 = wrap_text(item["c1_d"], body_font, 740)
-    ty = c1_y + 110
-    for l in lines1:
-        draw.text((110, ty), l, fill=WHITE, font=body_font)
-        ty += 44
+    lines1 = wrap_text(item["c1_d"], body_font, cw - 120)
+    ty = c1_y + 75
+    for l in lines1[:4]:
+        draw.text((cx_left + 35, ty), l, fill=WHITE, font=body_font)
+        ty += 38
 
-    # Arrow 1
-    draw.line([(540, 695), (540, 740)], fill=CYAN, width=6)
-    draw.polygon([(525, 730), (555, 730), (540, 745)], fill=CYAN)
+    # Arrow 1 (Y = 655 to 690)
+    draw.line([(540, 655), (540, 688)], fill=CYAN, width=5)
+    draw.polygon([(528, 680), (552, 680), (540, 693)], fill=CYAN)
 
-    # --- Card 2: Blueprint Strategy ---
-    c2_y, c2_h = 750, 520
-    draw_card(draw, 70, c2_y, 940, c2_h, border_color=GREEN, bg_color=(12, 28, 22))
-    draw.text((110, c2_y + 30), f"[>]  {item['c2_t']}", fill=GREEN, font=h2_font)
+    # 4. Card 2: Strategy / Blueprint (Y = 700 to 1030, H = 330)
+    c2_y, c2_h = 700, 330
+    draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=GREEN, bg_color=(12, 28, 22))
+    draw.text((cx_left + 35, c2_y + 22), f"[>]  {item['c2_t']}", fill=GREEN, font=h2_font)
     b2_fn = BADGE_MAP.get(item.get("b2", "card"), draw_credit_card_badge)
-    b2_fn(draw, 920, c2_y + 80, size=46)
+    b2_fn(draw, cx_left + cw - 55, c2_y + 36, size=38)
 
-    ty = c2_y + 110
+    ty = c2_y + 75
     for block in item["c2_d"].split("\n"):
-        w_lines = wrap_text(block, body_font, 740)
+        w_lines = wrap_text(block, body_font, cw - 120)
         for l in w_lines:
-            draw.text((110, ty), l, fill=WHITE, font=body_font)
-            ty += 44
-        ty += 8
+            draw.text((cx_left + 35, ty), l, fill=WHITE, font=body_font)
+            ty += 38
+        ty += 6
 
-    # Arrow 2
-    draw.line([(540, 1275), (540, 1320)], fill=CYAN, width=6)
-    draw.polygon([(525, 1310), (555, 1310), (540, 1325)], fill=CYAN)
+    # Arrow 2 (Y = 1040 to 1075)
+    draw.line([(540, 1040), (540, 1073)], fill=CYAN, width=5)
+    draw.polygon([(528, 1065), (552, 1065), (540, 1078)], fill=CYAN)
 
-    # --- Card 3: Financial Payoff ---
-    c3_y, c3_h = 1330, 370
-    draw_card(draw, 70, c3_y, 940, c3_h, border_color=GOLD, bg_color=(30, 26, 12))
-    draw.text((110, c3_y + 30), f"[$]  {item['c3_t']}", fill=GOLD, font=h2_font)
+    # 5. Card 3: Payoff / Result (Y = 1085 to 1325, H = 240)
+    c3_y, c3_h = 1085, 240
+    draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=GOLD, bg_color=(30, 26, 12))
+    draw.text((cx_left + 35, c3_y + 22), f"[$]  {item['c3_t']}", fill=GOLD, font=h2_font)
     b3_fn = BADGE_MAP.get(item.get("b3", "bull"), draw_bull_badge)
-    b3_fn(draw, 920, c3_y + 80, size=46)
+    b3_fn(draw, cx_left + cw - 55, c3_y + 36, size=38)
 
-    ty = c3_y + 110
+    ty = c3_y + 75
     for block in item["c3_d"].split("\n"):
-        w_lines = wrap_text(block, stat_font, 740)
+        w_lines = wrap_text(block, stat_font, cw - 120)
         for l in w_lines:
-            draw.text((110, ty), l, fill=GREEN if ("PAYOFF" in item["c3_t"] or "$" in l or "₹" in l) else WHITE, font=stat_font)
-            ty += 50
-        ty += 10
+            is_accent = any(s in l for s in ["PAYOFF", "$", "₹", "APR", "Jump", "+"])
+            draw.text((cx_left + 35, ty), l, fill=GREEN if is_accent else WHITE, font=stat_font)
+            ty += 42
+        ty += 6
 
-    # Bottom CTA Card
-    foot_font = get_font(27, bold=True)
-    foot_text = "SAVE THIS REEL   |   FOLLOW / SUBSCRIBE"
-    draw_card(draw, 70, 1750, 940, 90, border_color=GREEN, bg_color=(12, 26, 22), radius=20, border_width=3)
+    # 6. Bottom Brand Callout (Y = 1345 to 1405, H = 60)
+    foot_font = get_font(23, bold=True)
+    foot_text = "SAVE THIS REEL   •   FOLLOW FOR ZERO-BS WEALTH"
+    draw_card(draw, cx_left, 1345, cw, 58, border_color=GREEN, bg_color=(12, 26, 22), radius=16, border_width=2)
     f_bbox = foot_font.getbbox(foot_text)
-    f_tx = 70 + (940 - (f_bbox[2] - f_bbox[0])) // 2
-    f_ty = 1750 + (90 - (f_bbox[3] - f_bbox[1])) // 2
+    f_tx = cx_left + (cw - (f_bbox[2] - f_bbox[0])) // 2
+    f_ty = 1345 + (58 - (f_bbox[3] - f_bbox[1])) // 2
     draw.text((f_tx, f_ty), foot_text, fill=GREEN, font=foot_font)
 
+    # 7. Safe Zone Guarantee: Y = 1405 to 1920 is strictly preserved for Instagram/Shorts native overlay
     img.save(out_png, "PNG")
     return out_png
 
