@@ -205,5 +205,45 @@
     "youtube_url": "https://youtube.com/shorts/m9JubhIEMuA",
     "youtube_scheduled_for": "2026-09-13T14:30:00.000Z (Sunday Sep 13, 08:00 PM IST)",
     "instagram_status": "Ready in queue"
+  },
+  {
+    "id": 16,
+    "day": 8,
+    "slot": 2,
+    "title": "Free CIBIL Score Check Without Dropping Points (RBI Rule) \ud83d\udd0d\ud83d\udcc4",
+    "timestamp": "2026-09-08T19:10:51.783472",
+    "youtube_url": "https://youtube.com/shorts/9Lq2RxNPuSA",
+    "youtube_scheduled_for": "2026-09-14T06:30:00.000Z",
+    "instagram_status": "Ready in queue"
+  },
+  {
+    "id": 17,
+    "day": 9,
+    "slot": 1,
+    "title": "The 3-Bank-Account Wealth System \ud83c\udfe6\ud83d\udcb5 #Budgeting #Shorts",
+    "timestamp": "2026-09-08T19:11:02.501554",
+    "youtube_url": "https://youtube.com/shorts/sK_YKsv3iLg",
+    "youtube_scheduled_for": "2026-09-14T14:30:00.000Z",
+    "instagram_status": "Ready in queue"
+  },
+  {
+    "id": 18,
+    "day": 9,
+    "slot": 2,
+    "title": "Small Finance Banks: 7% Interest vs. 2.7% at SBI/HDFC \ud83c\udfe6\ud83d\udcc8 #Banking",
+    "timestamp": "2026-09-08T19:11:17.262445",
+    "youtube_url": "https://youtube.com/shorts/Sly9DX_mkX0",
+    "youtube_scheduled_for": "2026-09-15T06:30:00.000Z",
+    "instagram_status": "Ready in queue"
+  },
+  {
+    "id": 19,
+    "day": 10,
+    "slot": 1,
+    "title": "The Roth IRA: The 100% Tax-Free Retirement Hack \ud83d\udee1\ufe0f\ud83d\udcc8 #Investing",
+    "timestamp": "2026-09-08T19:11:31.612375",
+    "youtube_url": "https://youtube.com/shorts/Whq8AS4u5_Y",
+    "youtube_scheduled_for": "2026-09-15T14:30:00.000Z",
+    "instagram_status": "Ready in queue"
   }
 ]
