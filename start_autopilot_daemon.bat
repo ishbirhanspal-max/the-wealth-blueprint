@@ -5,5 +5,5 @@ echo ========================================================
 echo   THE WEALTH BLUEPRINT: INFINITE AUTOPILOT DAEMON
 echo ========================================================
 echo.
-python local_autopilot_daemon.py
+python autonomous_autopilot_engine.py --daemon
 pause
