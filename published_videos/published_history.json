@@ -245,5 +245,15 @@
     "youtube_url": "https://youtube.com/shorts/Whq8AS4u5_Y",
     "youtube_scheduled_for": "2026-09-15T14:30:00.000Z",
     "instagram_status": "Ready in queue"
+  },
+  {
+    "id": 20,
+    "day": 10,
+    "slot": 2,
+    "region": "INDIA",
+    "title": "\u20b91 Crore Health Insurance Super Top-Up Hack \ud83c\udfe5\ud83d\udee1\ufe0f #HealthInsurance",
+    "timestamp": "2026-09-08T18:16:38.939786",
+    "youtube_error": "<HttpError 400 when requesting None returned \"The user has exceeded the number of videos they may upload.\". Details: \"[{'message': 'The user has exceeded the number of videos they may upload.', 'domain': 'youtube.video', 'reason': 'uploadLimitExceeded'}]\">",
+    "instagram_url": null
   }
 ]
