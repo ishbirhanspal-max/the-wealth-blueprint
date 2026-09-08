@@ -1,11 +1,13 @@
-name: 50-Day Cloud Autopilot Publisher (2x Daily)
+name: 50-Day Cloud Autopilot Publisher (3x Daily)
 
 on:
   schedule:
-    # 12:00 PM IST (06:30 AM UTC) - Lunch Peak
-    - cron: '30 6 * * *'
-    # 08:00 PM IST (02:30 PM UTC) - Evening Prime Scroll Peak
-    - cron: '30 14 * * *'
+    # 09:00 AM IST (03:30 AM UTC) - Morning Commute
+    - cron: '30 3 * * *'
+    # 01:30 PM IST (08:00 AM UTC) - Lunch Break Peak
+    - cron: '0 8 * * *'
+    # 08:30 PM IST (03:00 PM UTC) - Evening Prime Scroll Peak
+    - cron: '0 15 * * *'
   workflow_dispatch: # Allows manual 1-click trigger from GitHub web UI
 
 permissions:

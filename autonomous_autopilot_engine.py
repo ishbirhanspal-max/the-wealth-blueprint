@@ -161,19 +161,23 @@ def replenish_youtube_queue(min_buffer=6, batch_size=8):
 
     print(f">> Extending YouTube schedule after latest slot: {latest_time.isoformat()}")
 
-    # Slots alternate between 06:30 UTC (12:00 PM IST) and 14:30 UTC (08:00 PM IST)
+    # Slots alternate between:
+    # 03:30 UTC (09:00 AM IST) -> 08:00 UTC (01:30 PM IST) -> 15:00 UTC (08:30 PM IST)
     items_to_schedule = pending_items[:batch_size]
     curr_time = latest_time
     scheduled_count = 0
 
     for item in items_to_schedule:
-        # Advance to next slot
-        if curr_time.hour < 10:
-            # Move from 06:30 UTC (12 PM IST) to 14:30 UTC (8 PM IST) same day
-            curr_time = curr_time.replace(hour=14, minute=30, second=0)
+        # Advance to next 3x slot
+        if curr_time.hour < 6:
+            # Move from 03:30 UTC to 08:00 UTC same day
+            curr_time = curr_time.replace(hour=8, minute=0, second=0)
+        elif curr_time.hour < 12:
+            # Move from 08:00 UTC to 15:00 UTC same day
+            curr_time = curr_time.replace(hour=15, minute=0, second=0)
         else:
-            # Move to next day 06:30 UTC (12 PM IST)
-            curr_time = (curr_time + timedelta(days=1)).replace(hour=6, minute=30, second=0)
+            # Move to next day 03:30 UTC
+            curr_time = (curr_time + timedelta(days=1)).replace(hour=3, minute=30, second=0)
 
         iso_time = curr_time.strftime("%Y-%m-%dT%H:%M:%S.000Z")
         p_id = item["id"]
@@ -338,10 +342,13 @@ def run_continuous_daemon():
         date_str = now.strftime("%Y-%m-%d")
 
         slot = None
-        if h == 12 and 0 <= m <= 10:
-            slot = f"{date_str}_12PM"
-        elif h == 20 and 0 <= m <= 10:
-            slot = f"{date_str}_8PM"
+        # 3x Daily Cadence: 09:00 AM, 01:30 PM, 08:30 PM IST
+        if h == 9 and 0 <= m <= 15:
+            slot = f"{date_str}_09AM"
+        elif h == 13 and 25 <= m <= 40:
+            slot = f"{date_str}_0130PM"
+        elif h == 20 and 25 <= m <= 40:
+            slot = f"{date_str}_0830PM"
 
         if slot and slot != last_slot:
             print(f"\n[TRIGGER] Reached prime posting slot: {slot}!")

@@ -9,3 +9,5 @@ ig_session.json
 ig_cookies.json
 scratch/
 output/temp_cloud/
+meta_bulk_upload_package/*.mp4
+meta_bulk_upload_package/*.jpg

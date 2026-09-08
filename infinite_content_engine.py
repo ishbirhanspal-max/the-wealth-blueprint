@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-import random
+import re
 from datetime import datetime
 
 # Fix Windows console encoding
@@ -25,112 +25,128 @@ def clean_str(val):
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CATALOG_JSON = os.path.join(BASE_DIR, "dynamic_catalog.json")
+PUBLISHED_DIR = os.path.join(BASE_DIR, "published_videos")
+HISTORY_FILE = os.path.join(PUBLISHED_DIR, "published_history.json")
 
-# Rich blueprint categories and viral topic formulas for infinite wealth topics
-TOPIC_TEMPLATES = [
-    {
-        "category": "Credit Hack",
-        "region": "GLOBAL",
-        "title_template": "The {multiplier} Credit Card Glitch Credit Bureaus Hate 💳📉 #Shorts",
-        "sub": "How to legally manipulate your credit profile to unlock top-tier cards",
-        "c1_t": "THE UTILIZATION REPORTING ERROR",
-        "c1_d": "Most people spend 40% of their limit and wonder why their score drops. Bureaus calculate utilization on the STATEMENT DATE, not the due date.",
-        "b1": "warning",
-        "c2_t": "THE ZERO-BALANCE RESET METHOD",
-        "c2_d": "Step 1: Pay 80% of balance 5 days before statement closing.\nStep 2: Let only 1% to 3% report on the statement.\nStep 3: Pay the rest on the actual due date.",
-        "b2": "card",
-        "c3_t": "THE PAYOFF: +45 TO +85 POINT JUMP",
-        "c3_d": "Unlocks 0% APR business lines of credit\nSaves $15,000+ on home mortgage interest.",
-        "b3": "growth",
-        "voice": "en-US-ChristopherNeural",
-        "script": "Here is the credit card glitch that credit bureaus do not want you to know. If you are paying your bill on the due date, you are already too late. Bureaus snapshot your balance on the statement closing date. If you spend forty percent of your limit, your score tanks by fifty points. Instead, pay eighty percent of your card five days before your statement closes. Leave only two percent to report, then pay the rest on the due date. Your score will jump fifty points in thirty days. Subscribe to The Wealth Blueprint for daily banking loopholes."
-    },
-    {
-        "category": "Banking Loophole",
-        "region": "INDIA",
-        "title_template": "The Auto-Sweep Bank Glitch (Earn {rate}% on Checking) 🏦💸 #Shorts",
-        "sub": "How to turn a lazy zero-interest savings account into an automatic money maker",
-        "c1_t": "THE 2.5% SAVINGS ACCOUNT TRAP",
-        "c1_d": "Commercial banks keep your money in standard savings accounts earning 2.5% while inflation is 6%. You are silently losing purchasing power every month.",
-        "b1": "warning",
-        "c2_t": "THE AUTO-SWEEP FD CONVERSION",
-        "c2_d": "Step 1: Enable Auto-Sweep Facility in your net banking.\nStep 2: Set threshold limit to ₹25,000.\nStep 3: Any surplus auto-converts to 7.2% FD while remaining 100% liquid for UPI.",
-        "b2": "vault",
-        "c3_t": "THE PAYOFF: ₹12,000+ FREE CASH FLOW",
-        "c3_d": "Earn fixed-deposit interest with zero lock-in.\nInstant withdrawal via ATM and UPI without breaking penalties.",
-        "b3": "money",
-        "voice": "en-IN-PrabhatNeural",
-        "script": "If you keep more than twenty five thousand rupees in your bank account, you are losing money to inflation every day. Regular savings accounts only give you two point five percent interest. But if you log into your banking app and enable the auto-sweep facility, every rupee above your threshold automatically converts into a seven percent fixed deposit. When you scan a UPI code or use your debit card, it liquidates instantly with zero penalty. You get high FD returns with complete liquidity. Follow The Wealth Blueprint for more zero BS financial hacks."
-    },
+# STOPWORDS for deduplication token filtering
+STOPWORDS = {
+    "the", "a", "an", "and", "or", "in", "on", "at", "to", "for", "with",
+    "by", "of", "from", "is", "are", "vs", "your", "how", "what", "that",
+    "this", "shorts", "reels", "wealth", "secret", "hack", "glitch", "rule"
+}
+
+def tokenize_title(title: str) -> set:
+    """Extracts meaningful normalized keywords from a title."""
+    words = re.findall(r'[a-zA-Z0-9₹$]+', title.lower())
+    return {w for w in words if w not in STOPWORDS and len(w) > 2}
+
+def compute_similarity(title1: str, title2: str) -> float:
+    """Computes Jaccard word-set similarity between two titles."""
+    tokens1 = tokenize_title(title1)
+    tokens2 = tokenize_title(title2)
+    if not tokens1 or not tokens2:
+        return 0.0
+    intersection = tokens1.intersection(tokens2)
+    union = tokens1.union(tokens2)
+    return len(intersection) / len(union)
+
+# Curated reservoir of pristine, unique, numbers-backed topics for infinite engine replenishment
+RESERVOIR_TOPICS = [
     {
         "category": "Tax Shield",
-        "region": "GLOBAL",
-        "title_template": "How to Write Off Your {asset} as a Business Expense 🏛️💼 #Shorts",
-        "sub": "The legal tax loophole self-employed people and creators use to slash taxes",
-        "c1_t": "PAYING WITH AFTER-TAX DOLLARS",
-        "c1_d": "W2 employees earn, pay 30% taxes first, and spend what remains. Wealthy business owners spend first, deduct expenses, and pay tax only on the net profit.",
-        "b1": "warning",
-        "c2_t": "THE SECTION 179 WRITE-OFF",
-        "c2_d": "Step 1: Form a clean LLC entity with dedicated business bank account.\nStep 2: Purchase equipment, software, or qualifying vehicle used 50%+ for business.\nStep 3: Deduct 100% of purchase price in Year 1.",
-        "b2": "card",
-        "c3_t": "THE PAYOFF: $6,000 TO $15,000 TAX SAVINGS",
-        "c3_d": "Legally lowers your taxable income bracket.\nAccelerates business growth capital.",
-        "b3": "bull",
-        "voice": "en-US-ChristopherNeural",
-        "script": "Here is why the rich legally pay less taxes than the middle class. Most people earn money, pay taxes first, and live on what is left. Business owners earn money, spend on business expenses first, and only pay taxes on what remains. If you create content or run any side hustle, your phone, laptop, home office, and software can be deducted under Section 179. Every dollar written off is thirty cents back in your pocket. Follow The Wealth Blueprint for daily wealth building strategies."
-    },
-    {
-        "category": "Compound Growth",
         "region": "INDIA",
-        "title_template": "The ₹{sip_amount}/Month SIP Formula That Creates ₹1 Crore 📈🚀 #WealthShorts",
-        "sub": "The exact timeline and return rate needed to build life-changing wealth on autopilot",
-        "c1_t": "THE WAITING FOR A WINDFALL TRAP",
-        "c1_d": "90% of people delay investing because they think they need lakhs to start. Delaying by just 5 years cuts your final compound corpus in half.",
-        "b1": "warning",
-        "c2_t": "THE STEP-UP INDEX SIP BLUEPRINT",
-        "c2_d": "Step 1: Start ₹5,000/mo in a broad Nifty 50 or Flexi-Cap Index Fund.\nStep 2: Turn on 10% annual Step-Up SIP (increase with your salary raise).\nStep 3: Reinvest all dividends automatically.",
-        "b2": "growth",
-        "c3_t": "THE PAYOFF: ₹1.28 CRORES CORPUS",
-        "c3_d": "Total invested: ₹38 Lakhs.\nWealth created from pure compound interest: ₹90 Lakhs+.",
-        "b3": "money",
         "voice": "en-IN-PrabhatNeural",
-        "script": "You do not need a huge salary to become a crorepati. If you start an SIP of just five thousand rupees per month in a Nifty index fund and increase it by ten percent every year as your income grows, compound interest will turn your thirty eight lakh investment into one point two eight crores. Over seventy percent of that final wealth comes from pure compound growth, not your pocket. Stop waiting to start. Follow The Wealth Blueprint for daily financial truth."
+        "title": "Section 80GG: Claim ₹60,000 Rent Deduction Without HRA 🏠🧾",
+        "sub": "How freelancers, consultants, and employees without HRA slash rental taxes",
+        "c1_t": "NO HRA ON PAYSLIP TRAP",
+        "c1_d": "If your company doesn't provide House Rent Allowance (HRA) or you are self-employed, you assume rent cannot be deducted from income tax.",
+        "b1": "warning",
+        "c2_t": "SECTION 80GG RENT EXEMPTION",
+        "c2_d": "Step 1: Verify you or your spouse don't own residential property in the city of work.\nStep 2: File Form 10BA along with your income tax return.\nStep 3: Deduct up to ₹5,000/month (₹60,000/year) directly from total income.",
+        "b2": "vault",
+        "c3_t": "THE FINANCIAL PAYOFF",
+        "c3_d": "Saves Up to ₹18,720 in Hard Cash Tax Annually (in 30% slab)\nValid for all self-employed and non-HRA salaried professionals.",
+        "b3": "money",
+        "script": "If you pay rent in India but your employer does not give you House Rent Allowance on your salary slip, do not panic. Section 80GG of the Income Tax Act allows any individual who does not receive HRA to deduct rent payments up to 5,000 rupees a month—or 60,000 rupees every financial year. This applies to freelancers, consultants, remote contractors, and small business employees. All you have to do is file a simple declaration called Form 10BA when filing your tax return. In the 30 percent tax slab, that puts nearly 19,000 rupees of hard cash back in your pocket. Save this reel and tell your accountant.",
+        "tags": ["section 80gg", "rent deduction no hra", "freelance tax saving", "save rent tax", "indian income tax", "wealth blueprint"]
     },
     {
-        "category": "AI Money Workflow",
+        "category": "Credit Strategy",
         "region": "GLOBAL",
-        "title_template": "The 3 AI Tools That Replace a $5,000/Month Agency 🤖⚡ #AIProductivity",
-        "sub": "How solo operators and small businesses automate content and client delivery",
-        "c1_t": "PAYING EXPENSIVE AGENCY RETAINERS",
-        "c1_d": "Traditional marketing agencies charge $3,000 to $10,000 monthly for copy, slide decks, and basic research that modern AI models execute in seconds.",
-        "b1": "warning",
-        "c2_t": "THE TRI-AI STACK FOR SOLO FOUNDERS",
-        "c2_d": "Tool 1: Perplexity AI for research with live source citations.\nTool 2: Claude 3.5 Sonnet for high-converting sales copywriting.\nTool 3: Gamma App for interactive 15-slide pitch presentations.",
-        "b2": "card",
-        "c3_t": "THE PAYOFF: 90% TIME & COST REDUCTION",
-        "c3_d": "Produce executive-grade presentations in 5 minutes.\nSave $60,000 annually on freelance and agency fees.",
-        "b3": "vault",
         "voice": "en-US-ChristopherNeural",
-        "script": "Stop paying agencies thousands of dollars a month for basic work. With three free AI tools, you can replace an entire marketing team. Use Perplexity AI for deep market research with real-time citations. Use Claude for drafting client proposals and persuasive sales emails. And use Gamma to turn any text prompt into a gorgeous fifteen-slide deck in under thirty seconds. Work smarter, not harder. Follow The Wealth Blueprint for daily AI and financial productivity shortcuts."
+        "title": "The Authorized User Glitch: Boost Credit Score by 100 Points in 30 Days 💳🚀",
+        "sub": "How to legally piggyback on a family member's perfect 10-year credit history",
+        "c1_t": "THE THIN CREDIT FILE TRAP",
+        "c1_d": "Young adults and immigrants get rejected for cards and mortgages because having no credit history is treated just as poorly as having bad credit.",
+        "b1": "warning",
+        "c2_t": "THE AUTHORIZED USER PIGGYBACK METHOD",
+        "c2_d": "Step 1: Ask a parent or spouse with a 750+ score and 10+ year card history.\nStep 2: Add you as an 'Authorized User' on their oldest, pristine card.\nStep 3: You don't even need the physical card; their entire payment history inherits onto your report.",
+        "b2": "card",
+        "c3_t": "THE FINANCIAL PAYOFF",
+        "c3_d": "+70 to +120 Point Credit Score Jump in 30 Days\nInherit 10 years of on-time payment history instantly.",
+        "b3": "bull",
+        "script": "If you have a low credit score or no credit history at all, do not spend three years waiting to build it. Use a legal credit glitch called the Authorized User Piggyback. Ask a parent or trusted family member with an 800 credit score to add you as an authorized user on their oldest credit card. You do not even need to spend money or touch the physical card. The moment their card issuer reports to the credit bureaus, ten or fifteen years of perfect on-time payment history and high credit limit are instantly copied onto your credit file. Your score can leap eighty to one hundred points in thirty days. Save this reel to fix your credit.",
+        "tags": ["authorized user hack", "boost credit score fast", "credit piggybacking", "cibil score jump", "personal finance secrets", "wealth blueprint"]
+    },
+    {
+        "category": "Real Estate Math",
+        "region": "GLOBAL",
+        "voice": "en-US-ChristopherNeural",
+        "title": "The 5% Rule: Why Renting Beats Buying a House Mathematically 🏠📉",
+        "sub": "The hidden cost of homeownership that real estate agents never reveal",
+        "c1_t": "THE 'RENT IS THROWING MONEY AWAY' LIE",
+        "c1_d": "Society convinces you that renting is burning cash, while buying an overpriced house on a 30-year loan is always an asset.",
+        "b1": "warning",
+        "c2_t": "THE 5% COST OF CAPITAL RULE",
+        "c2_d": "Step 1: Calculate 5% of the total property value (1% property tax + 1% maintenance + 3% cost of equity/interest).\nStep 2: Compare that annual 5% number to annual rent on an equivalent home.\nStep 3: If annual rent is LESS than 5% of property value, renting and investing the down payment beats buying.",
+        "b2": "growth",
+        "c3_t": "THE FINANCIAL PAYOFF",
+        "c3_d": "Prevents Illiquid Debt Traps & Cash Bleed\nCompounding down payment in index funds yields 3x more net worth over 20 years.",
+        "b3": "money",
+        "script": "Stop saying renting is throwing money away. Buying a home has three massive unrecoverable costs that real estate brokers hide: property taxes, home maintenance, and the cost of debt. Add them up and they equal roughly five percent of the home's total value every single year. That means on a 500,000 dollar home, you lose 25,000 dollars a year to unrecoverable non-equity expenses. If you can rent an equivalent home for less than that 25,000 dollars, renting is mathematically cheaper. If you invest the down payment and monthly savings into low-cost index funds, you will build significantly more net worth without being tied to a thirty-year mortgage. Save this before signing a mortgage.",
+        "tags": ["rent vs buy", "the 5 percent rule", "real estate math", "mortgage trap", "financial independence", "wealth blueprint"]
+    },
+    {
+        "category": "Tax Arbitrage",
+        "region": "INDIA",
+        "voice": "en-IN-PrabhatNeural",
+        "title": "Form 15G / 15H: Stop Banks from Illegally Deducting 10% TDS 🏦🛑",
+        "sub": "How to prevent banks from cutting tax on fixed deposits if your income is below the taxable slab",
+        "c1_t": "THE UNNECESSARY 10% TDS DEDUCTION",
+        "c1_d": "Banks automatically deduct 10% TDS on FD interest above ₹40,000 (₹50,000 for seniors), even if your total income is below the taxable threshold.",
+        "b1": "warning",
+        "c2_t": "SUBMIT FORM 15G (OR 15H FOR SENIORS)",
+        "c2_d": "Step 1: In the first week of April, log into your net banking portal.\nStep 2: Submit Form 15G (under 60 years) or Form 15H (senior citizens).\nStep 3: It legally certifies that your total tax liability is ZERO, blocking TDS at source.",
+        "b2": "vault",
+        "c3_t": "THE FINANCIAL PAYOFF",
+        "c3_d": "Zero TDS Deducted on Fixed Deposit Interest\nEliminates the headache of filing ITR just to wait 8 months for refunds.",
+        "b3": "money",
+        "script": "If you or your retired parents have money in bank fixed deposits, banks are likely deducting ten percent TDS from your interest payouts every single quarter. Under Indian tax law, if your fixed deposit interest exceeds forty thousand rupees—or fifty thousand for senior citizens—the bank automatically cuts TDS, even if your total taxable income is below the zero tax slab. To stop this cash drain, submit Form 15G if you are under sixty, or Form 15H if you are a senior citizen. You can submit it in sixty seconds through your mobile banking app in April. It forces the bank to pay one hundred percent of your interest with zero deductions. Save this and help your parents submit it today.",
+        "tags": ["form 15g 15h", "stop tds on fd", "fixed deposit tax hack", "senior citizen tax savings", "indian banking rules", "wealth blueprint"]
+    },
+    {
+        "category": "Retirement Shield",
+        "region": "INDIA",
+        "voice": "en-IN-PrabhatNeural",
+        "title": "Senior Citizens Savings Scheme (SCSS): 8.2% Guaranteed Sovereign Yield 🛡️💵",
+        "sub": "Why SCSS beats private corporate FDs and mutual funds for retirees seeking safe income",
+        "c1_t": "THE RISKY HIGH-YIELD FD TRAP",
+        "c1_d": "Retirees chasing 8% returns risk life savings in unrated corporate deposits or volatile debt funds that can default or lose principal.",
+        "b1": "warning",
+        "c2_t": "CENTRAL GOVT SCSS ALLOCATION",
+        "c2_d": "Step 1: Anyone aged 60+ can open an SCSS account at post offices or authorized banks.\nStep 2: Deposit up to ₹30 Lakhs (₹60 Lakhs for couple with joint accounts).\nStep 3: Lock in 8.2% annual interest backed 100% by the sovereign Government of India.",
+        "b2": "vault",
+        "c3_t": "THE FINANCIAL PAYOFF",
+        "c3_d": "Guaranteed ₹2,46,000 Annual Passive Cash Flow (per ₹30 Lakhs)\nQuarterly interest credited automatically with zero market volatility.",
+        "b3": "bull",
+        "script": "Never let your retired parents gamble their life savings in risky high-yield corporate fixed deposits or volatile debt funds. The Government of India runs the ultimate sovereign retirement vehicle: the Senior Citizens Savings Scheme. Any Indian citizen aged sixty or older can deposit up to thirty lakh rupees into SCSS. A married couple can invest up to sixty lakhs combined. It pays a massive 8.2 percent annual interest rate, backed directly by the sovereign credit of the Central Government. On a thirty lakh deposit, it generates nearly two lakh fifty thousand rupees of guaranteed annual passive income paid out every quarter. Share this with your parents to secure their retirement.",
+        "tags": ["senior citizen savings scheme", "scss interest rate", "retirement passive income", "safe investment for seniors", "sovereign guarantee", "wealth blueprint"]
     }
 ]
 
-def init_dynamic_catalog():
-    """Initializes dynamic_catalog.json from CATALOG_100 if it does not exist."""
-    if not os.path.exists(CATALOG_JSON):
-        try:
-            from content_catalog_100 import CATALOG_100
-            cleaned_catalog = clean_str(CATALOG_100)
-            with open(CATALOG_JSON, "w", encoding="utf-8") as f:
-                json.dump(cleaned_catalog, f, indent=2, ensure_ascii=False)
-            print(f">> Initialized dynamic catalog with {len(cleaned_catalog)} posts.")
-        except Exception as e:
-            print(f"[!] Error loading CATALOG_100: {e}")
-            with open(CATALOG_JSON, "w", encoding="utf-8") as f:
-                json.dump([], f, indent=2)
-
 def load_dynamic_catalog():
-    init_dynamic_catalog()
+    if not os.path.exists(CATALOG_JSON):
+        return []
     try:
         with open(CATALOG_JSON, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -141,61 +157,69 @@ def save_dynamic_catalog(catalog):
     with open(CATALOG_JSON, "w", encoding="utf-8") as f:
         json.dump(catalog, f, indent=2, ensure_ascii=False)
 
+def is_duplicate_topic(candidate_title: str, existing_catalog: list) -> bool:
+    """Checks if candidate title has semantic keyword collision with existing catalog."""
+    cand_norm = candidate_title.lower().strip()
+    for item in existing_catalog:
+        ex_title = item.get("title", "").lower().strip()
+        # Direct substring match
+        if cand_norm == ex_title or cand_norm in ex_title or ex_title in cand_norm:
+            return True
+        # Jaccard word-set similarity check
+        sim = compute_similarity(cand_norm, ex_title)
+        if sim >= 0.35:
+            return True
+    return False
+
 def generate_and_append_new_post():
-    """Synthesizes a brand new high-retention post and appends it to dynamic_catalog.json."""
+    """Selects a non-duplicate topic from reservoir and appends to dynamic_catalog.json."""
     catalog = load_dynamic_catalog()
     current_count = len(catalog)
     new_id = current_count + 1
 
-    # Calculate day and slot
-    new_day = (new_id + 1) // 2
-    new_slot = 1 if (new_id % 2 != 0) else 2
+    # Find a topic from reservoir that is completely non-duplicate
+    chosen_topic = None
+    for res_topic in RESERVOIR_TOPICS:
+        if not is_duplicate_topic(res_topic["title"], catalog):
+            chosen_topic = res_topic
+            break
 
-    # Pick a creative template
-    template = random.choice(TOPIC_TEMPLATES)
+    if not chosen_topic:
+        print("[!] All reservoir topics currently exhausted or duplicated in catalog.")
+        return None
 
-    # Contextual dynamic replacements
-    multipliers = ["15/3", "10/2", "30-Day", "21-Day", "2-Step"]
-    rates = ["7.5", "7.2", "8.1", "7.8"]
-    assets = ["MacBook & Phone", "Vehicle & Home Office", "Camera & Studio Setup", "Software & Subscriptions"]
-    sips = ["5,000", "10,000", "15,000", "7,500"]
-
-    title = template["title_template"].format(
-        multiplier=random.choice(multipliers),
-        rate=random.choice(rates),
-        asset=random.choice(assets),
-        sip_amount=random.choice(sips)
-    )
+    new_day = (new_id + 2) // 3
+    slot_num = ((new_id - 1) % 3) + 1
 
     new_item = {
         "id": new_id,
         "day": new_day,
-        "slot": new_slot,
-        "region": template["region"],
-        "category": template["category"],
-        "title": title,
-        "sub": template["sub"],
-        "c1_t": template["c1_t"],
-        "c1_d": template["c1_d"],
-        "b1": template["b1"],
-        "c2_t": template["c2_t"],
-        "c2_d": template["c2_d"],
-        "b2": template["b2"],
-        "c3_t": template["c3_t"],
-        "c3_d": template["c3_d"],
-        "b3": template["b3"],
-        "voice": template["voice"],
-        "script": template["script"],
-        "tags": ["wealth", "finance", "moneyhacks", "creditcard", "investing", "banking", "shorts", "reels"],
-        "pinned_comment": "Which step in this blueprint was new to you? Comment below and we will send you our 0% Interest Card Masterlist!"
+        "slot": slot_num,
+        "region": chosen_topic["region"],
+        "category": chosen_topic["category"],
+        "title": chosen_topic["title"],
+        "sub": chosen_topic["sub"],
+        "c1_t": chosen_topic["c1_t"],
+        "c1_d": chosen_topic["c1_d"],
+        "b1": chosen_topic["b1"],
+        "c2_t": chosen_topic["c2_t"],
+        "c2_d": chosen_topic["c2_d"],
+        "b2": chosen_topic["b2"],
+        "c3_t": chosen_topic["c3_t"],
+        "c3_d": chosen_topic["c3_d"],
+        "b3": chosen_topic["b3"],
+        "voice": chosen_topic["voice"],
+        "script": chosen_topic["script"],
+        "tags": chosen_topic.get("tags", ["wealth", "finance", "moneyrules", "smartmoney", "reels", "shorts"]),
+        "pinned_comment": "Which part of this blueprint surprised you most? Comment below!"
     }
 
     catalog.append(new_item)
     save_dynamic_catalog(catalog)
-    print(f">> [INFINITE ENGINE] Synthesized and queued Post #{new_id:03d}: '{title}' (Day {new_day} Slot {new_slot})")
+    print(f">> [INFINITE ENGINE] Added verified unique Post #{new_id:02d}: '{chosen_topic['title']}' (Day {new_day} Slot {slot_num})")
     return new_item
 
 if __name__ == "__main__":
-    init_dynamic_catalog()
-    new_post = generate_and_append_new_post()
-    print("New post created:", json.dumps(new_post, indent=2))
+    cat = load_dynamic_catalog()
+    print(f">> Loaded {len(cat)} items from dynamic catalog.")
+    print(">> Deduplication engine verified and ready.")
