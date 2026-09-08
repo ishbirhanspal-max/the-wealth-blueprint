@@ -51,6 +51,6 @@ jobs:
         run: |
           git config --global user.name "TheWealthBlueprint Cloud Bot"
           git config --global user.email "bot@thewealthblueprint.com"
-          git add published_videos/published_history.json
-          git commit -m "Auto-published video via cloud runner [skip ci]" || echo "No changes to commit"
+          git add published_videos/published_history.json dynamic_catalog.json
+          git commit -m "Auto-published video and replenished catalog [skip ci]" || echo "No changes to commit"
           git push

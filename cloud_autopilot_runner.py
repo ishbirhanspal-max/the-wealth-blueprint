@@ -33,7 +33,12 @@ def clean_str(val):
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-from content_catalog_100 import CATALOG_100
+try:
+    from infinite_content_engine import load_dynamic_catalog, generate_and_append_new_post
+    CATALOG_100 = load_dynamic_catalog()
+except Exception:
+    from content_catalog_100 import CATALOG_100
+
 from audio_synth import generate_ambient_background_music
 
 # Directories
@@ -345,7 +350,13 @@ def save_history(history):
 def get_next_item():
     history = load_history()
     published_ids = {entry.get("id") for entry in history}
-    for item in CATALOG_100:
+    try:
+        from infinite_content_engine import load_dynamic_catalog
+        catalog = load_dynamic_catalog()
+    except Exception:
+        catalog = CATALOG_100
+
+    for item in catalog:
         if item["id"] not in published_ids:
             return item
     return None
@@ -471,6 +482,15 @@ Check our channel bio: @TheWealthBlueprint
     hist = load_history()
     hist.append(results)
     save_history(hist)
+
+    # 6. Infinite Replenishment Loop: synthesize a brand-new viral post and append to catalog queue!
+    if not dry_run:
+        try:
+            from infinite_content_engine import generate_and_append_new_post
+            replenished = generate_and_append_new_post()
+            print(f">> [INFINITE AUTOPILOT] Queue replenished with Post #{replenished['id']}: '{replenished['title']}'")
+        except Exception as e:
+            print(f"[!] Warning: Could not replenish queue: {e}")
 
     # Clean up temporary heavy video files to keep runner clean
     for p in [img_path, voice_path, mp4_path]:
