@@ -5,6 +5,7 @@ import time
 import argparse
 import asyncio
 import subprocess
+import shutil
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 import imageio_ffmpeg
@@ -296,42 +297,202 @@ def render_poster(item: dict, out_png: str):
     img.save(out_png, "PNG")
     return out_png
 
+def render_progressive_frames(item: dict, out_dir: str):
+    """Renders 3 progressive visual states for high-retention video rendering."""
+    os.makedirs(out_dir, exist_ok=True)
+    frames = []
+
+    cx_left = 90
+    cw = 840
+    pill_font = get_font(20, bold=True)
+    h2_font = get_font(27, bold=True)
+    body_font = get_font(22, bold=False)
+    stat_font = get_font(25, bold=True)
+
+    for stage in [1, 2, 3]:
+        img = Image.new("RGB", (1080, 1920), color=BG_COLOR)
+        draw = ImageDraw.Draw(img)
+
+        # Tech grid background
+        for gy in range(150, 1850, 110):
+            draw.line([(50, gy), (1030, gy)], fill=GRID_COLOR, width=1)
+        for gx in range(50, 1050, 120):
+            draw.line([(gx, 150), (gx, 1850)], fill=GRID_COLOR, width=1)
+
+        # 1. Category and Brand Top Badges
+        brand_text = "THE WEALTH BLUEPRINT"
+        b_w = 320
+        draw_card(draw, cx_left, 215, b_w, 44, border_color=GREEN, bg_color=(10, 28, 22), radius=22, border_width=2)
+        b_bbox = pill_font.getbbox(brand_text)
+        draw.text((cx_left + (b_w - (b_bbox[2] - b_bbox[0])) // 2, 215 + (44 - (b_bbox[3] - b_bbox[1])) // 2), brand_text, fill=GREEN, font=pill_font)
+
+        cat_prefix = "[INDIA] " if item.get("region") == "INDIA" else ""
+        cat_text = f"{cat_prefix}{strip_emojis(item['category']).upper()}"
+        cat_w = 400
+        cat_x = cx_left + cw - cat_w
+        draw_card(draw, cat_x, 215, cat_w, 44, border_color=GOLD, bg_color=(28, 24, 10), radius=22, border_width=2)
+        c_bbox = pill_font.getbbox(cat_text)
+        draw.text((cat_x + (cat_w - (c_bbox[2] - c_bbox[0])) // 2, 215 + (44 - (c_bbox[3] - c_bbox[1])) // 2), cat_text, fill=GOLD, font=pill_font)
+
+        # 2. Main Hook Headline
+        title = strip_emojis(item["title"].split("#")[0]).strip()
+        title_size = 40
+        title_font = get_font(title_size, bold=True)
+        t_bbox = title_font.getbbox(title)
+        while (t_bbox[2] - t_bbox[0]) > (cw - 20) and title_size > 24:
+            title_size -= 2
+            title_font = get_font(title_size, bold=True)
+            t_bbox = title_font.getbbox(title)
+        draw.text((cx_left, 275), title, fill=WHITE, font=title_font)
+
+        sub_font = get_font(21, bold=False)
+        draw.text((cx_left, 335), item.get("sub", ""), fill=MUTED, font=sub_font)
+
+        # 3. Card 1: Mistake / Trap
+        c1_y, c1_h = 385, 260
+        draw_card(draw, cx_left, c1_y, cw, c1_h, border_color=RED, bg_color=(28, 12, 16), border_width=3 if stage == 1 else 2)
+        draw.text((cx_left + 35, c1_y + 22), f"[!]  {item['c1_t']}", fill=RED, font=h2_font)
+        
+        if stage == 1:
+            draw_card(draw, cx_left + cw - 170, c1_y + 18, 140, 34, border_color=RED, bg_color=(50, 15, 22), radius=17)
+            h_f = get_font(16, bold=True)
+            draw.text((cx_left + cw - 155, c1_y + 25), "THE TRAP", fill=RED, font=h_f)
+
+        lines1 = wrap_text(item["c1_d"], body_font, cw - 120)
+        ty = c1_y + 75
+        for l in lines1[:4]:
+            draw.text((cx_left + 35, ty), l, fill=WHITE, font=body_font)
+            ty += 38
+
+        # Arrow 1
+        draw.line([(540, 655), (540, 688)], fill=CYAN if stage >= 2 else (30, 45, 60), width=5)
+        draw.polygon([(528, 680), (552, 680), (540, 693)], fill=CYAN if stage >= 2 else (30, 45, 60))
+
+        # 4. Card 2: Strategy / Blueprint
+        c2_y, c2_h = 700, 330
+        if stage >= 2:
+            draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=GREEN, bg_color=(12, 28, 22), border_width=3 if stage == 2 else 2)
+            draw.text((cx_left + 35, c2_y + 22), f"[>]  {item['c2_t']}", fill=GREEN, font=h2_font)
+            if stage == 2:
+                draw_card(draw, cx_left + cw - 190, c2_y + 18, 160, 34, border_color=GREEN, bg_color=(15, 45, 25), radius=17)
+                h_f = get_font(16, bold=True)
+                draw.text((cx_left + cw - 178, c2_y + 25), "THE BLUEPRINT", fill=GREEN, font=h_f)
+
+            ty = c2_y + 75
+            for block in item["c2_d"].split("\n"):
+                w_lines = wrap_text(block, body_font, cw - 120)
+                for l in w_lines:
+                    draw.text((cx_left + 35, ty), l, fill=WHITE, font=body_font)
+                    ty += 38
+                ty += 6
+        else:
+            draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=(35, 42, 60), bg_color=(12, 14, 20), border_width=2)
+            lock_f = get_font(24, bold=True)
+            draw.text((cx_left + 40, c2_y + 140), "STEP 2: REVEALING THE WEALTH BLUEPRINT...", fill=(80, 95, 125), font=lock_f)
+
+        # Arrow 2
+        draw.line([(540, 1040), (540, 1073)], fill=CYAN if stage == 3 else (30, 45, 60), width=5)
+        draw.polygon([(528, 1065), (552, 1065), (540, 1078)], fill=CYAN if stage == 3 else (30, 45, 60))
+
+        # 5. Card 3: Payoff / Result
+        c3_y, c3_h = 1085, 240
+        if stage == 3:
+            draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=GOLD, bg_color=(32, 28, 12), border_width=3)
+            draw.text((cx_left + 35, c3_y + 22), f"[$]  {item['c3_t']}", fill=GOLD, font=h2_font)
+            draw_card(draw, cx_left + cw - 180, c3_y + 18, 150, 34, border_color=GOLD, bg_color=(50, 40, 15), radius=17)
+            h_f = get_font(16, bold=True)
+            draw.text((cx_left + cw - 168, c3_y + 25), "THE ROI PAYOFF", fill=GOLD, font=h_f)
+
+            ty = c3_y + 75
+            for block in item["c3_d"].split("\n"):
+                w_lines = wrap_text(block, stat_font, cw - 120)
+                for l in w_lines:
+                    is_accent = any(s in l for s in ["PAYOFF", "$", "₹", "APR", "Jump", "+", "Saves", "0%", "100%"])
+                    draw.text((cx_left + 35, ty), l, fill=GREEN if is_accent else WHITE, font=stat_font)
+                    ty += 42
+                ty += 6
+        else:
+            draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=(35, 42, 60), bg_color=(12, 14, 20), border_width=2)
+            lock_f = get_font(24, bold=True)
+            draw.text((cx_left + 40, c3_y + 105), "STEP 3: CALCULATING YOUR FINANCIAL PAYOFF...", fill=(80, 95, 125), font=lock_f)
+
+        # 6. Bottom Brand Callout
+        foot_font = get_font(23, bold=True)
+        foot_text = "SAVE THIS REEL   •   FOLLOW FOR ZERO-BS WEALTH"
+        draw_card(draw, cx_left, 1345, cw, 58, border_color=GREEN if stage == 3 else CARD_BORDER, bg_color=(12, 26, 22) if stage == 3 else CARD_BG, radius=16, border_width=2)
+        f_bbox = foot_font.getbbox(foot_text)
+        draw.text((cx_left + (cw - (f_bbox[2] - f_bbox[0])) // 2, 1345 + (58 - (f_bbox[3] - f_bbox[1])) // 2), foot_text, fill=GREEN if stage == 3 else MUTED, font=foot_font)
+
+        frame_path = os.path.join(out_dir, f"frame_{stage}.png")
+        img.save(frame_path, "PNG")
+        frames.append(frame_path)
+
+    return frames
+
 async def generate_speech_async(script: str, out_mp3: str, voice: str):
     clean = script.replace("\n", " ").strip()
-    communicate = edge_tts.Communicate(clean, voice)
+    communicate = edge_tts.Communicate(clean, voice, rate="+12%")
     await communicate.save(out_mp3)
     return out_mp3
 
-def assemble_mp4(img_path: str, voice_path: str, out_mp4: str):
-    """Combines poster image, neural voice, and looped ducked ambient music with FFmpeg."""
+def assemble_dynamic_video(frames: list, voice_path: str, out_mp4: str):
+    """Combines 3 progressive visual frames with multi-stage reveals, 44.1kHz Stereo, and FastStart."""
     if not os.path.exists(BGM_PATH):
         generate_ambient_background_music(BGM_PATH, 75.0)
 
     ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+
+    # Get voice duration via ffprobe
+    cmd_probe = [ffmpeg, "-i", voice_path]
+    probe_res = subprocess.run(cmd_probe, capture_output=True, text=True)
+    import re
+    dur_match = re.search(r"Duration:\s*(\d+):(\d+):(\d+\.\d+)", probe_res.stderr)
+    total_sec = 24.0
+    if dur_match:
+        h, m, s = map(float, dur_match.groups())
+        total_sec = h * 3600 + m * 60 + s
+
+    # Progressive timing cuts: Stage 1 = 30%, Stage 2 = 40%, Stage 3 = 30%
+    d1 = round(total_sec * 0.30, 2)
+    d2 = round(total_sec * 0.40, 2)
+    d3 = round(total_sec - d1 - d2, 2)
+
+    concat_file = os.path.join(os.path.dirname(out_mp4), "concat_list.txt")
+    with open(concat_file, "w", encoding="utf-8") as f:
+        f.write(f"file '{frames[0]}'\nduration {d1}\n")
+        f.write(f"file '{frames[1]}'\nduration {d2}\n")
+        f.write(f"file '{frames[2]}'\nduration {d3}\n")
+        f.write(f"file '{frames[2]}'\n")
+
     cmd = [
         ffmpeg, "-y",
-        "-loop", "1", "-i", img_path,
+        "-f", "concat", "-safe", "0", "-i", concat_file,
         "-i", voice_path,
         "-stream_loop", "-1", "-i", BGM_PATH,
         "-filter_complex",
         "[1:a]volume=1.20[a1];"
-        "[2:a]volume=0.45[a2];"
-        "[a1][a2]amix=inputs=2:duration=first[aout]",
+        "[2:a]volume=0.38[a2];"
+        "[a1][a2]amix=inputs=2:duration=first[amixed];"
+        "[amixed]aformat=sample_rates=44100:channel_layouts=stereo[aout]",
         "-map", "0:v",
         "-map", "[aout]",
+        "-r", "25",
         "-c:v", "libx264",
-        "-tune", "stillimage",
-        "-preset", "ultrafast",
-        "-crf", "20",
+        "-preset", "veryfast",
+        "-crf", "19",
         "-pix_fmt", "yuv420p",
         "-c:a", "aac",
         "-b:a", "192k",
+        "-movflags", "+faststart",
         "-shortest",
         out_mp4
     ]
     res = subprocess.run(cmd, capture_output=True, text=True)
+    if os.path.exists(concat_file):
+        os.remove(concat_file)
+
     if res.returncode != 0:
-        raise RuntimeError(f"FFmpeg render error: {res.stderr}")
+        raise RuntimeError(f"FFmpeg dynamic assembly error: {res.stderr}")
     return out_mp4
 
 def load_history():
@@ -374,22 +535,23 @@ def publish_entry(item: dict, dry_run: bool = False):
     print(f">> Region: {region} | Voice: {voice}")
     print(f"========================================================")
 
-    # 1. Render poster image
-    img_path = os.path.join(TEMP_DIR, f"post_{p_id:03d}.png")
-    print(">> Rendering 1080x1920 HD infographic poster...")
-    render_poster(item, img_path)
+    # 1. Render progressive frames for dynamic multi-stage reveal
+    frames_dir = os.path.join(TEMP_DIR, f"post_{p_id:03d}_frames")
+    print(">> Rendering 3-stage progressive dynamic frames (Trap -> Blueprint -> ROI Payoff)...")
+    frames = render_progressive_frames(item, frames_dir)
+    img_path = frames[-1]  # Final complete frame used for thumbnail / previews
 
-    # 2. Generate neural voiceover
+    # 2. Generate neural voiceover (+12% rate for rapid mobile retention)
     voice_path = os.path.join(TEMP_DIR, f"post_{p_id:03d}_voice.mp3")
-    print(f">> Synthesizing neural speech ({item['voice']})...")
+    print(f">> Synthesizing high-retention rapid voiceover ({item['voice']})...")
     asyncio.run(generate_speech_async(item["script"], voice_path, item["voice"]))
 
-    # 3. Assemble MP4
+    # 3. Assemble dynamic MP4 (3-stage visual reveals, 44.1kHz Stereo, FastStart)
     mp4_path = os.path.join(TEMP_DIR, f"post_{p_id:03d}.mp4")
-    print(">> Compositing video with lo-fi ambient audio ducking...")
-    assemble_mp4(img_path, voice_path, mp4_path)
+    print(">> Compositing high-retention dynamic video...")
+    assemble_dynamic_video(frames, voice_path, mp4_path)
     sz_mb = os.path.getsize(mp4_path) / (1024 * 1024)
-    print(f"[OK] Video ready: {os.path.basename(mp4_path)} ({sz_mb:.2f} MB)")
+    print(f"[OK] Dynamic Video ready: {os.path.basename(mp4_path)} ({sz_mb:.2f} MB)")
 
     # 4. Assemble SEO package
     yt_desc = f"""{item['title']}
@@ -497,12 +659,17 @@ Check our channel bio: @TheWealthBlueprint
             print(f"[!] Warning: Could not replenish queue: {e}")
 
     # Clean up temporary heavy video files to keep runner clean
-    for p in [img_path, voice_path, mp4_path]:
+    for p in [voice_path, mp4_path]:
         if os.path.exists(p):
             try:
                 os.remove(p)
             except Exception:
                 pass
+    if os.path.exists(frames_dir):
+        try:
+            shutil.rmtree(frames_dir, ignore_errors=True)
+        except Exception:
+            pass
 
     print(f">> Post #{p_id:03d} logged successfully to history!")
     return True
