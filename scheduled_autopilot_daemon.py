@@ -3,6 +3,13 @@ import sys
 import json
 import time
 from datetime import datetime
+
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", line_buffering=True)
+    except Exception:
+        pass
+
 from publish_next_reel import publish_reel
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
