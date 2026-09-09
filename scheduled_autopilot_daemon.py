@@ -52,9 +52,17 @@ def check_and_publish_due(dry_run: bool = False):
         print("[DRY-RUN] Post is due and ready to publish.")
         return due_item
 
-    # Publish reel + story
+    # 1. Publish to Instagram (Reel + Story)
     reel_url = None
     story_id = None
+    yt_url = due_item.get("youtube_url")
+
+    # Fetch full item metadata from catalog
+    catalog_path = os.path.join(BASE_DIR, "dynamic_catalog.json")
+    with open(catalog_path, "r", encoding="utf-8") as f:
+        cat = json.load(f)
+    target = next((c for c in cat if c["id"] == r_id), None)
+
     if due_item.get("video_path") and os.path.exists(due_item["video_path"]):
         item_payload = {
             "id": r_id,
@@ -64,31 +72,49 @@ def check_and_publish_due(dry_run: bool = False):
             "thumb_file": due_item.get("thumb_path")
         }
         reel_url, story_id = publish_reel(item_payload, post_story=True)
+
+        # 2. Check and Publish to YouTube Shorts if not already pre-scheduled in Studio
+        if not due_item.get("youtube_url") and due_item.get("youtube_status") != "SCHEDULED IN STUDIO" and target:
+            try:
+                from youtube_uploader import upload_short_to_youtube
+                yt_desc = f"""{target['title']}\n\n⚡ SCRIPT BREAKDOWN:\n{target['script']}\n\n👇 FREE WEALTH MASTERLIST: Check bio @TheWealthBlueprint\n\n#Shorts #{target['category'].replace(' ', '')} #TheWealthBlueprint"""
+                print(f">> Uploading Post #{r_id:02d} to YouTube Shorts...")
+                yt_url = upload_short_to_youtube(
+                    video_path=due_item["video_path"],
+                    title=target["title"],
+                    description=yt_desc,
+                    tags=target.get("tags", ["shorts", "finance"]),
+                    pinned_comment=target.get("pinned_comment"),
+                    privacy_status="public"
+                )
+                due_item["youtube_url"] = yt_url
+                print(f"   [OK] YouTube Shorts LIVE: {yt_url}")
+            except Exception as ye:
+                print(f"   [!] YouTube upload notice: {ye}")
     else:
         print(f">> Pre-rendered file not found for Post #{r_id:02d}. Rendering on-the-fly with cloud runner...")
         from cloud_autopilot_runner import publish_entry
-        catalog_path = os.path.join(BASE_DIR, "dynamic_catalog.json")
-        with open(catalog_path, "r", encoding="utf-8") as f:
-            cat = json.load(f)
-        target = next((c for c in cat if c["id"] == r_id), None)
         if target:
             publish_entry(target)
-            # Retrieve from history
             if os.path.exists(HISTORY_FILE):
                 with open(HISTORY_FILE, "r", encoding="utf-8") as hf:
                     h_data = json.load(hf)
                     last_entry = next((x for x in reversed(h_data) if x.get("id") == r_id), {})
                     reel_url = last_entry.get("instagram_url")
                     story_id = last_entry.get("instagram_story_id")
+                    yt_url = last_entry.get("youtube_url")
 
     due_item["status"] = "PUBLISHED"
     due_item["published_at"] = datetime.now().isoformat()
     due_item["instagram_url"] = reel_url
+    if yt_url:
+        due_item["youtube_url"] = yt_url
+        due_item["youtube_status"] = "LIVE"
     if story_id:
         due_item["instagram_story_id"] = story_id
     save_calendar(cal)
 
-    print(f">> Reel #{r_id:02d} + Story published and marked done in schedule calendar!")
+    print(f">> Post #{r_id:02d} (YouTube + Instagram Reel + Story) published and marked done in schedule calendar!")
     return due_item
 
 def run_daemon():
