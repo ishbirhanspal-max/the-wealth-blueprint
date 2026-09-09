@@ -26,22 +26,23 @@ def check_and_publish_due(dry_run: bool = False):
 
     due_item = None
     for item in cal:
-        if item.get("status") == "SCHEDULED":
+        if item.get("status") == "SCHEDULED" or item.get("reel_status") == "SCHEDULED":
             sched_dt = datetime.fromisoformat(item["scheduled_datetime"].replace("+05:30", ""))
             if now_dt >= sched_dt:
                 due_item = item
                 break
 
     if not due_item:
-        next_up = next((it for it in cal if it.get("status") == "SCHEDULED"), None)
+        next_up = next((it for it in cal if it.get("status") == "SCHEDULED" or it.get("reel_status") == "SCHEDULED"), None)
         if next_up:
+            n_id = next_up.get("reel_id") or next_up.get("id")
             print(f">> Autopilot Scheduler: No posts currently due.")
-            print(f">> Next scheduled post: Reel #{next_up['reel_id']:02d} on {next_up.get('scheduled_time_str')}")
+            print(f">> Next scheduled post: Reel #{n_id:02d} on {next_up.get('scheduled_time_str')}")
         else:
             print(">> All items on schedule calendar have already been published!")
         return None
 
-    r_id = due_item["reel_id"]
+    r_id = due_item.get("reel_id") or due_item.get("id")
     print(f"\n========================================================")
     print(f">> DUE POST DETECTED: Reel #{r_id:02d} ({due_item['title']})")
     print(f">> Scheduled For: {due_item.get('scheduled_time_str')}")
@@ -52,14 +53,33 @@ def check_and_publish_due(dry_run: bool = False):
         return due_item
 
     # Publish reel + story
-    item_payload = {
-        "id": r_id,
-        "name": os.path.basename(due_item["video_path"]),
-        "mp4": due_item["video_path"],
-        "caption_file": due_item["caption_path"],
-        "thumb_file": due_item["thumb_path"]
-    }
-    reel_url, story_id = publish_reel(item_payload, post_story=True)
+    reel_url = None
+    story_id = None
+    if due_item.get("video_path") and os.path.exists(due_item["video_path"]):
+        item_payload = {
+            "id": r_id,
+            "name": os.path.basename(due_item["video_path"]),
+            "mp4": due_item["video_path"],
+            "caption_file": due_item.get("caption_path"),
+            "thumb_file": due_item.get("thumb_path")
+        }
+        reel_url, story_id = publish_reel(item_payload, post_story=True)
+    else:
+        print(f">> Pre-rendered file not found for Post #{r_id:02d}. Rendering on-the-fly with cloud runner...")
+        from cloud_autopilot_runner import publish_entry
+        catalog_path = os.path.join(BASE_DIR, "dynamic_catalog.json")
+        with open(catalog_path, "r", encoding="utf-8") as f:
+            cat = json.load(f)
+        target = next((c for c in cat if c["id"] == r_id), None)
+        if target:
+            publish_entry(target)
+            # Retrieve from history
+            if os.path.exists(HISTORY_FILE):
+                with open(HISTORY_FILE, "r", encoding="utf-8") as hf:
+                    h_data = json.load(hf)
+                    last_entry = next((x for x in reversed(h_data) if x.get("id") == r_id), {})
+                    reel_url = last_entry.get("instagram_url")
+                    story_id = last_entry.get("instagram_story_id")
 
     due_item["status"] = "PUBLISHED"
     due_item["published_at"] = datetime.now().isoformat()
