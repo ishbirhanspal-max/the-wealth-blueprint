@@ -515,7 +515,12 @@ def save_history(history):
 
 def get_next_item():
     history = load_history()
-    published_ids = {entry.get("id") for entry in history}
+    published_ids = set()
+    for entry in history:
+        if entry.get("instagram_url") or entry.get("instagram_status") in ["PUBLISHED", "Published Live as Reel"]:
+            if entry.get("id"):
+                published_ids.add(entry["id"])
+
     try:
         from infinite_content_engine import load_dynamic_catalog
         catalog = load_dynamic_catalog()
@@ -598,30 +603,46 @@ Check our channel bio: @TheWealthBlueprint
     }
 
     # YouTube upload check
-    yt_token = os.environ.get("YOUTUBE_TOKEN_JSON")
-    if yt_token or os.path.exists(os.path.join(BASE_DIR, "token.json")) or os.path.exists(os.path.join(BASE_DIR, "client_secret.json")):
+    cal_file = os.path.join(BASE_DIR, "SCHEDULE_CALENDAR.json")
+    already_scheduled_url = None
+    if os.path.exists(cal_file):
         try:
-            # If passed via GitHub secret string, write token.json
-            if yt_token and not os.path.exists(os.path.join(BASE_DIR, "token.json")):
-                with open(os.path.join(BASE_DIR, "token.json"), "w", encoding="utf-8") as f:
-                    f.write(yt_token)
+            with open(cal_file, "r", encoding="utf-8") as f:
+                cal_data = json.load(f)
+            cal_match = next((c for c in cal_data if c["id"] == p_id), None)
+            if cal_match and cal_match.get("youtube_url"):
+                already_scheduled_url = cal_match["youtube_url"]
+        except Exception:
+            pass
 
-            from youtube_uploader import upload_short_to_youtube
-            yt_url = upload_short_to_youtube(
-                video_path=mp4_path,
-                title=item["title"],
-                description=yt_desc,
-                tags=item["tags"],
-                pinned_comment=item["pinned_comment"],
-                privacy_status="public"
-            )
-            results["youtube_url"] = yt_url
-            print(f"   [OK] YouTube Shorts: Published at {yt_url}")
-        except Exception as e:
-            print(f"   [!] YouTube Error: {e}")
-            results["youtube_error"] = str(e)
+    if already_scheduled_url:
+        results["youtube_url"] = already_scheduled_url
+        print(f"   [OK] YouTube Shorts: Pre-scheduled in YouTube Studio at {already_scheduled_url}")
     else:
-        print("   [SKIP] YouTube: Credentials not found in environment.")
+        yt_token = os.environ.get("YOUTUBE_TOKEN_JSON")
+        if yt_token or os.path.exists(os.path.join(BASE_DIR, "token.json")) or os.path.exists(os.path.join(BASE_DIR, "client_secret.json")):
+            try:
+                # If passed via GitHub secret string, write token.json
+                if yt_token and not os.path.exists(os.path.join(BASE_DIR, "token.json")):
+                    with open(os.path.join(BASE_DIR, "token.json"), "w", encoding="utf-8") as f:
+                        f.write(yt_token)
+
+                from youtube_uploader import upload_short_to_youtube
+                yt_url = upload_short_to_youtube(
+                    video_path=mp4_path,
+                    title=item["title"],
+                    description=yt_desc,
+                    tags=item["tags"],
+                    pinned_comment=item["pinned_comment"],
+                    privacy_status="public"
+                )
+                results["youtube_url"] = yt_url
+                print(f"   [OK] YouTube Shorts: Published at {yt_url}")
+            except Exception as e:
+                print(f"   [!] YouTube Error: {e}")
+                results["youtube_error"] = str(e)
+        else:
+            print("   [SKIP] YouTube: Credentials not found in environment.")
 
     # Instagram upload check
     ig_user = os.environ.get("INSTAGRAM_USERNAME")
