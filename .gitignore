@@ -11,3 +11,5 @@ scratch/
 output/temp_cloud/
 meta_bulk_upload_package/*.mp4
 meta_bulk_upload_package/*.jpg
+INSTAGRAM_SESSION_SECRET.txt
+scripts/
