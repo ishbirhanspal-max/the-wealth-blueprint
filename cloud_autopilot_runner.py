@@ -297,131 +297,136 @@ def render_poster(item: dict, out_png: str):
     img.save(out_png, "PNG")
     return out_png
 
-def render_progressive_frames(item: dict, out_dir: str):
-    """Renders 3 progressive visual states for high-retention video rendering."""
+def render_progressive_frames(item: dict, out_dir: str, scale: int = 2):
+    """Renders 3 progressive visual states in 4K Ultra HD (2160x3840) for extreme clarity and retention."""
     os.makedirs(out_dir, exist_ok=True)
     frames = []
 
-    cx_left = 90
-    cw = 840
-    pill_font = get_font(20, bold=True)
-    h2_font = get_font(27, bold=True)
-    body_font = get_font(22, bold=False)
-    stat_font = get_font(25, bold=True)
+    width = 1080 * scale
+    height = 1920 * scale
+    cx_left = 90 * scale
+    cw = 840 * scale
+    pill_font = get_font(20 * scale, bold=True)
+    h2_font = get_font(27 * scale, bold=True)
+    body_font = get_font(22 * scale, bold=False)
+    stat_font = get_font(25 * scale, bold=True)
 
     for stage in [1, 2, 3]:
-        img = Image.new("RGB", (1080, 1920), color=BG_COLOR)
+        img = Image.new("RGB", (width, height), color=BG_COLOR)
         draw = ImageDraw.Draw(img)
 
         # Tech grid background
-        for gy in range(150, 1850, 110):
-            draw.line([(50, gy), (1030, gy)], fill=GRID_COLOR, width=1)
-        for gx in range(50, 1050, 120):
-            draw.line([(gx, 150), (gx, 1850)], fill=GRID_COLOR, width=1)
+        for gy in range(150 * scale, 1850 * scale, 110 * scale):
+            draw.line([(50 * scale, gy), (1030 * scale, gy)], fill=GRID_COLOR, width=1 * scale)
+        for gx in range(50 * scale, 1050 * scale, 120 * scale):
+            draw.line([(gx, 150 * scale), (gx, 1850 * scale)], fill=GRID_COLOR, width=1 * scale)
 
         # 1. Category and Brand Top Badges
         brand_text = "THE WEALTH BLUEPRINT"
-        b_w = 320
-        draw_card(draw, cx_left, 215, b_w, 44, border_color=GREEN, bg_color=(10, 28, 22), radius=22, border_width=2)
+        b_w = 320 * scale
+        b_h = 44 * scale
+        b_y = 215 * scale
+        draw_card(draw, cx_left, b_y, b_w, b_h, border_color=GREEN, bg_color=(10, 28, 22), radius=22 * scale, border_width=2 * scale)
         b_bbox = pill_font.getbbox(brand_text)
-        draw.text((cx_left + (b_w - (b_bbox[2] - b_bbox[0])) // 2, 215 + (44 - (b_bbox[3] - b_bbox[1])) // 2), brand_text, fill=GREEN, font=pill_font)
+        draw.text((cx_left + (b_w - (b_bbox[2] - b_bbox[0])) // 2, b_y + (b_h - (b_bbox[3] - b_bbox[1])) // 2), brand_text, fill=GREEN, font=pill_font)
 
         cat_prefix = "[INDIA] " if item.get("region") == "INDIA" else ""
         cat_text = f"{cat_prefix}{strip_emojis(item['category']).upper()}"
-        cat_w = 400
+        cat_w = 400 * scale
         cat_x = cx_left + cw - cat_w
-        draw_card(draw, cat_x, 215, cat_w, 44, border_color=GOLD, bg_color=(28, 24, 10), radius=22, border_width=2)
+        draw_card(draw, cat_x, b_y, cat_w, b_h, border_color=GOLD, bg_color=(28, 24, 10), radius=22 * scale, border_width=2 * scale)
         c_bbox = pill_font.getbbox(cat_text)
-        draw.text((cat_x + (cat_w - (c_bbox[2] - c_bbox[0])) // 2, 215 + (44 - (c_bbox[3] - c_bbox[1])) // 2), cat_text, fill=GOLD, font=pill_font)
+        draw.text((cat_x + (cat_w - (c_bbox[2] - c_bbox[0])) // 2, b_y + (b_h - (c_bbox[3] - c_bbox[1])) // 2), cat_text, fill=GOLD, font=pill_font)
 
         # 2. Main Hook Headline
         title = strip_emojis(item["title"].split("#")[0]).strip()
-        title_size = 40
+        title_size = 40 * scale
         title_font = get_font(title_size, bold=True)
         t_bbox = title_font.getbbox(title)
-        while (t_bbox[2] - t_bbox[0]) > (cw - 20) and title_size > 24:
-            title_size -= 2
+        while (t_bbox[2] - t_bbox[0]) > (cw - 20 * scale) and title_size > (24 * scale):
+            title_size -= (2 * scale)
             title_font = get_font(title_size, bold=True)
             t_bbox = title_font.getbbox(title)
-        draw.text((cx_left, 275), title, fill=WHITE, font=title_font)
+        draw.text((cx_left, 275 * scale), title, fill=WHITE, font=title_font)
 
-        sub_font = get_font(21, bold=False)
-        draw.text((cx_left, 335), item.get("sub", ""), fill=MUTED, font=sub_font)
+        sub_font = get_font(21 * scale, bold=False)
+        draw.text((cx_left, 335 * scale), item.get("sub", ""), fill=MUTED, font=sub_font)
 
         # 3. Card 1: Mistake / Trap
-        c1_y, c1_h = 385, 260
-        draw_card(draw, cx_left, c1_y, cw, c1_h, border_color=RED, bg_color=(28, 12, 16), border_width=3 if stage == 1 else 2)
-        draw.text((cx_left + 35, c1_y + 22), f"[!]  {item['c1_t']}", fill=RED, font=h2_font)
+        c1_y, c1_h = 385 * scale, 260 * scale
+        draw_card(draw, cx_left, c1_y, cw, c1_h, border_color=RED, bg_color=(28, 12, 16), border_width=3 * scale if stage == 1 else 2 * scale, radius=24 * scale)
+        draw.text((cx_left + 35 * scale, c1_y + 22 * scale), f"[!]  {item['c1_t']}", fill=RED, font=h2_font)
         
         if stage == 1:
-            draw_card(draw, cx_left + cw - 170, c1_y + 18, 140, 34, border_color=RED, bg_color=(50, 15, 22), radius=17)
-            h_f = get_font(16, bold=True)
-            draw.text((cx_left + cw - 155, c1_y + 25), "THE TRAP", fill=RED, font=h_f)
+            draw_card(draw, cx_left + cw - 170 * scale, c1_y + 18 * scale, 140 * scale, 34 * scale, border_color=RED, bg_color=(50, 15, 22), radius=17 * scale, border_width=2 * scale)
+            h_f = get_font(16 * scale, bold=True)
+            draw.text((cx_left + cw - 155 * scale, c1_y + 25 * scale), "THE TRAP", fill=RED, font=h_f)
 
-        lines1 = wrap_text(item["c1_d"], body_font, cw - 120)
-        ty = c1_y + 75
+        lines1 = wrap_text(item["c1_d"], body_font, cw - 120 * scale)
+        ty = c1_y + 75 * scale
         for l in lines1[:4]:
-            draw.text((cx_left + 35, ty), l, fill=WHITE, font=body_font)
-            ty += 38
+            draw.text((cx_left + 35 * scale, ty), l, fill=WHITE, font=body_font)
+            ty += 38 * scale
 
         # Arrow 1
-        draw.line([(540, 655), (540, 688)], fill=CYAN if stage >= 2 else (30, 45, 60), width=5)
-        draw.polygon([(528, 680), (552, 680), (540, 693)], fill=CYAN if stage >= 2 else (30, 45, 60))
+        arrow_x = 540 * scale
+        draw.line([(arrow_x, 655 * scale), (arrow_x, 688 * scale)], fill=CYAN if stage >= 2 else (30, 45, 60), width=5 * scale)
+        draw.polygon([(arrow_x - 12 * scale, 680 * scale), (arrow_x + 12 * scale, 680 * scale), (arrow_x, 693 * scale)], fill=CYAN if stage >= 2 else (30, 45, 60))
 
         # 4. Card 2: Strategy / Blueprint
-        c2_y, c2_h = 700, 330
+        c2_y, c2_h = 700 * scale, 330 * scale
         if stage >= 2:
-            draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=GREEN, bg_color=(12, 28, 22), border_width=3 if stage == 2 else 2)
-            draw.text((cx_left + 35, c2_y + 22), f"[>]  {item['c2_t']}", fill=GREEN, font=h2_font)
+            draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=GREEN, bg_color=(12, 28, 22), border_width=3 * scale if stage == 2 else 2 * scale, radius=24 * scale)
+            draw.text((cx_left + 35 * scale, c2_y + 22 * scale), f"[>]  {item['c2_t']}", fill=GREEN, font=h2_font)
             if stage == 2:
-                draw_card(draw, cx_left + cw - 190, c2_y + 18, 160, 34, border_color=GREEN, bg_color=(15, 45, 25), radius=17)
-                h_f = get_font(16, bold=True)
-                draw.text((cx_left + cw - 178, c2_y + 25), "THE BLUEPRINT", fill=GREEN, font=h_f)
+                draw_card(draw, cx_left + cw - 190 * scale, c2_y + 18 * scale, 160 * scale, 34 * scale, border_color=GREEN, bg_color=(15, 45, 25), radius=17 * scale, border_width=2 * scale)
+                h_f = get_font(16 * scale, bold=True)
+                draw.text((cx_left + cw - 178 * scale, c2_y + 25 * scale), "THE BLUEPRINT", fill=GREEN, font=h_f)
 
-            ty = c2_y + 75
+            ty = c2_y + 75 * scale
             for block in item["c2_d"].split("\n"):
-                w_lines = wrap_text(block, body_font, cw - 120)
+                w_lines = wrap_text(block, body_font, cw - 120 * scale)
                 for l in w_lines:
-                    draw.text((cx_left + 35, ty), l, fill=WHITE, font=body_font)
-                    ty += 38
-                ty += 6
+                    draw.text((cx_left + 35 * scale, ty), l, fill=WHITE, font=body_font)
+                    ty += 38 * scale
+                ty += 6 * scale
         else:
-            draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=(35, 42, 60), bg_color=(12, 14, 20), border_width=2)
-            lock_f = get_font(24, bold=True)
-            draw.text((cx_left + 40, c2_y + 140), "STEP 2: REVEALING THE WEALTH BLUEPRINT...", fill=(80, 95, 125), font=lock_f)
+            draw_card(draw, cx_left, c2_y, cw, c2_h, border_color=(35, 42, 60), bg_color=(12, 14, 20), border_width=2 * scale, radius=24 * scale)
+            lock_f = get_font(24 * scale, bold=True)
+            draw.text((cx_left + 40 * scale, c2_y + 140 * scale), "STEP 2: REVEALING THE WEALTH BLUEPRINT...", fill=(80, 95, 125), font=lock_f)
 
         # Arrow 2
-        draw.line([(540, 1040), (540, 1073)], fill=CYAN if stage == 3 else (30, 45, 60), width=5)
-        draw.polygon([(528, 1065), (552, 1065), (540, 1078)], fill=CYAN if stage == 3 else (30, 45, 60))
+        draw.line([(arrow_x, 1040 * scale), (arrow_x, 1073 * scale)], fill=CYAN if stage == 3 else (30, 45, 60), width=5 * scale)
+        draw.polygon([(arrow_x - 12 * scale, 1065 * scale), (arrow_x + 12 * scale, 1065 * scale), (arrow_x, 1078 * scale)], fill=CYAN if stage == 3 else (30, 45, 60))
 
         # 5. Card 3: Payoff / Result
-        c3_y, c3_h = 1085, 240
+        c3_y, c3_h = 1085 * scale, 240 * scale
         if stage == 3:
-            draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=GOLD, bg_color=(32, 28, 12), border_width=3)
-            draw.text((cx_left + 35, c3_y + 22), f"[$]  {item['c3_t']}", fill=GOLD, font=h2_font)
-            draw_card(draw, cx_left + cw - 180, c3_y + 18, 150, 34, border_color=GOLD, bg_color=(50, 40, 15), radius=17)
-            h_f = get_font(16, bold=True)
-            draw.text((cx_left + cw - 168, c3_y + 25), "THE ROI PAYOFF", fill=GOLD, font=h_f)
+            draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=GOLD, bg_color=(32, 28, 12), border_width=3 * scale, radius=24 * scale)
+            draw.text((cx_left + 35 * scale, c3_y + 22 * scale), f"[$]  {item['c3_t']}", fill=GOLD, font=h2_font)
+            draw_card(draw, cx_left + cw - 180 * scale, c3_y + 18 * scale, 150 * scale, 34 * scale, border_color=GOLD, bg_color=(50, 40, 15), radius=17 * scale, border_width=2 * scale)
+            h_f = get_font(16 * scale, bold=True)
+            draw.text((cx_left + cw - 168 * scale, c3_y + 25 * scale), "THE ROI PAYOFF", fill=GOLD, font=h_f)
 
-            ty = c3_y + 75
+            ty = c3_y + 75 * scale
             for block in item["c3_d"].split("\n"):
-                w_lines = wrap_text(block, stat_font, cw - 120)
+                w_lines = wrap_text(block, stat_font, cw - 120 * scale)
                 for l in w_lines:
                     is_accent = any(s in l for s in ["PAYOFF", "$", "₹", "APR", "Jump", "+", "Saves", "0%", "100%"])
-                    draw.text((cx_left + 35, ty), l, fill=GREEN if is_accent else WHITE, font=stat_font)
-                    ty += 42
-                ty += 6
+                    draw.text((cx_left + 35 * scale, ty), l, fill=GREEN if is_accent else WHITE, font=stat_font)
+                    ty += 42 * scale
+                ty += 6 * scale
         else:
-            draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=(35, 42, 60), bg_color=(12, 14, 20), border_width=2)
-            lock_f = get_font(24, bold=True)
-            draw.text((cx_left + 40, c3_y + 105), "STEP 3: CALCULATING YOUR FINANCIAL PAYOFF...", fill=(80, 95, 125), font=lock_f)
+            draw_card(draw, cx_left, c3_y, cw, c3_h, border_color=(35, 42, 60), bg_color=(12, 14, 20), border_width=2 * scale, radius=24 * scale)
+            lock_f = get_font(24 * scale, bold=True)
+            draw.text((cx_left + 40 * scale, c3_y + 105 * scale), "STEP 3: CALCULATING YOUR FINANCIAL PAYOFF...", fill=(80, 95, 125), font=lock_f)
 
         # 6. Bottom Brand Callout
-        foot_font = get_font(23, bold=True)
+        foot_font = get_font(23 * scale, bold=True)
         foot_text = "SAVE THIS REEL   •   FOLLOW FOR ZERO-BS WEALTH"
-        draw_card(draw, cx_left, 1345, cw, 58, border_color=GREEN if stage == 3 else CARD_BORDER, bg_color=(12, 26, 22) if stage == 3 else CARD_BG, radius=16, border_width=2)
+        draw_card(draw, cx_left, 1345 * scale, cw, 58 * scale, border_color=GREEN if stage == 3 else CARD_BORDER, bg_color=(12, 26, 22) if stage == 3 else CARD_BG, radius=16 * scale, border_width=2 * scale)
         f_bbox = foot_font.getbbox(foot_text)
-        draw.text((cx_left + (cw - (f_bbox[2] - f_bbox[0])) // 2, 1345 + (58 - (f_bbox[3] - f_bbox[1])) // 2), foot_text, fill=GREEN if stage == 3 else MUTED, font=foot_font)
+        draw.text((cx_left + (cw - (f_bbox[2] - f_bbox[0])) // 2, 1345 * scale + (58 * scale - (f_bbox[3] - f_bbox[1])) // 2), foot_text, fill=GREEN if stage == 3 else MUTED, font=foot_font)
 
         frame_path = os.path.join(out_dir, f"frame_{stage}.png")
         img.save(frame_path, "PNG")
