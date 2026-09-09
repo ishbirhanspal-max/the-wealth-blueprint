@@ -109,6 +109,26 @@ def upload_reel_direct(video_path: str, caption: str, username: str = None, pass
         media = cl.clip_upload(video_path, caption=caption, thumbnail=thumb_path if os.path.exists(thumb_path) else None)
         reel_url = f"https://www.instagram.com/reel/{media.code}/"
         print(f">> [Instagram] Published successfully! URL: {reel_url}")
+
+        # Automatically share published Reel to Instagram Stories with interactive sticker
+        try:
+            import time
+            from pathlib import Path
+            from story_generator import render_story_background
+            time.sleep(3)
+            story_bg = os.path.splitext(video_path)[0] + "_story_bg.jpg"
+            clean_headline = caption.split("\n")[0].strip()[:42]
+            render_story_background(clean_headline, "Wealth System", story_bg)
+            story = cl.media_share_to_story(str(media.pk), background=Path(story_bg))
+            print(f">> [Instagram] Interactive Story published! Story ID: {getattr(story, 'id', story)}")
+            if os.path.exists(story_bg):
+                try:
+                    os.remove(story_bg)
+                except Exception:
+                    pass
+        except Exception as se:
+            print(f">> [Notice] Story share skipped: {se}")
+
         return reel_url
     except ImportError:
         print("[Notice] 'instagrapi' not installed. Run: pip install instagrapi")
