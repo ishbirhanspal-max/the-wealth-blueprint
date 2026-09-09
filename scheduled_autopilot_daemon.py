@@ -75,8 +75,8 @@ def check_and_publish_due(dry_run: bool = False):
             "id": r_id,
             "name": os.path.basename(due_item["video_path"]),
             "mp4": due_item["video_path"],
-            "caption_file": due_item.get("caption_path"),
-            "thumb_file": due_item.get("thumb_path")
+            "caption_file": due_item.get("caption_path") or (os.path.splitext(due_item["video_path"])[0] + "_caption.txt" if os.path.exists(os.path.splitext(due_item["video_path"])[0] + "_caption.txt") else None),
+            "thumb_file": due_item.get("thumb_path") or (os.path.splitext(due_item["video_path"])[0] + "_thumb.jpg" if os.path.exists(os.path.splitext(due_item["video_path"])[0] + "_thumb.jpg") else None)
         }
         reel_url, story_id = publish_reel(item_payload, post_story=True)
 
