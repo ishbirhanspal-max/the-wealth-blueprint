@@ -10,16 +10,16 @@
 
 | # | Date & Slot (IST) | Scheduled Blueprint Topic | YouTube Shorts Status | Instagram Reel & Story Status |
 | :---: | :--- | :--- | :--- | :---: |
-| **#10** | **Sep 09 (Wed)** • 08:30 PM (Evening Prime) | [INDIA] Public Provident Fund (PPF): 0% Tax EEE Goldmine | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#11** | **Sep 10 (Thu)** • 09:00 AM (Morning) | [GLOBAL] Gamma AI: Build Decks in 15 Seconds | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#12** | **Sep 10 (Thu)** • 01:30 PM (Lunch) | [INDIA] Old vs. New Tax Regime: Which One Saves You More? | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#13** | **Sep 10 (Thu)** • 08:30 PM (Evening Prime) | [GLOBAL] The Subscription Vampire Kill-Switch | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#14** | **Sep 11 (Fri)** • 09:00 AM (Morning) | [INDIA] The Bank ULIP Scam vs. Pure Term Insurance | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#15** | **Sep 11 (Fri)** • 01:30 PM (Lunch) | [GLOBAL] Assets vs. Liabilities: The Golden Rule of Wealth | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#16** | **Sep 11 (Fri)** • 08:30 PM (Evening Prime) | [INDIA] Free CIBIL Score Check Without Dropping Points (RBI Rule) | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#17** | **Sep 12 (Sat)** • 09:00 AM (Morning) | [GLOBAL] The 3-Bank-Account Wealth System | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#18** | **Sep 12 (Sat)** • 01:30 PM (Lunch) | [INDIA] Small Finance Banks: 7% Interest vs. 2.7% at SBI/HDFC | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
-| **#19** | **Sep 12 (Sat)** • 08:30 PM (Evening Prime) | [GLOBAL] The Roth IRA: The 100% Tax-Free Retirement Hack | ✅ Pre-Scheduled in Studio | ⏳ Reel + Story Scheduled |
+| **#10** | **Sep 09 (Wed)** • 08:30 PM (Evening Prime) | [INDIA] Public Provident Fund (PPF): 0% Tax EEE Goldmine | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#11** | **Sep 10 (Thu)** • 09:00 AM (Morning) | [GLOBAL] Gamma AI: Build Decks in 15 Seconds | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#12** | **Sep 10 (Thu)** • 01:30 PM (Lunch) | [INDIA] Old vs. New Tax Regime: Which One Saves You More? | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#13** | **Sep 10 (Thu)** • 08:30 PM (Evening Prime) | [GLOBAL] The Subscription Vampire Kill-Switch | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#14** | **Sep 11 (Fri)** • 09:00 AM (Morning) | [INDIA] The Bank ULIP Scam vs. Pure Term Insurance | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#15** | **Sep 11 (Fri)** • 01:30 PM (Lunch) | [GLOBAL] Assets vs. Liabilities: The Golden Rule of Wealth | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#16** | **Sep 11 (Fri)** • 08:30 PM (Evening Prime) | [INDIA] Free CIBIL Score Check Without Dropping Points (RBI Rule) | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#17** | **Sep 12 (Sat)** • 09:00 AM (Morning) | [GLOBAL] The 3-Bank-Account Wealth System | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#18** | **Sep 12 (Sat)** • 01:30 PM (Lunch) | [INDIA] Small Finance Banks: 7% Interest vs. 2.7% at SBI/HDFC | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
+| **#19** | **Sep 12 (Sat)** • 08:30 PM (Evening Prime) | [GLOBAL] The Roth IRA: The 100% Tax-Free Retirement Hack | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
 | **#20** | **Sep 13 (Sun)** • 09:00 AM (Morning) | [INDIA] 1 Crore Health Insurance Super Top-Up Hack | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
 | **#21** | **Sep 13 (Sun)** • 01:30 PM (Lunch) | [GLOBAL] The FDIC $250,000 Loophole (Insure Up to $3 Million) | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
 | **#22** | **Sep 13 (Sun)** • 08:30 PM (Evening Prime) | [INDIA] The HUF Tax Loophole: Save 1,50,000+ Every Year | ⏳ Queued for Autopilot | ⏳ Reel + Story Scheduled |
