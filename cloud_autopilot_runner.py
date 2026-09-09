@@ -364,10 +364,14 @@ def get_next_item():
 def publish_entry(item: dict, dry_run: bool = False):
     item = clean_str(item)
     p_id = item["id"]
+    day = item.get("day") or ((p_id + 2) // 3)
+    slot = item.get("slot") or (((p_id - 1) % 3) + 1)
+    region = item.get("region", "GLOBAL")
+    voice = item.get("voice", "en-US-ChristopherNeural")
     print(f"\n========================================================")
-    print(f">> CLOUD AUTOPILOT: PROCESSING POST #{p_id:03d} (Day {item['day']:02d} / Slot {item['slot']})")
-    print(f">> Title: {item['title']}")
-    print(f">> Region: {item['region']} | Voice: {item['voice']}")
+    print(f">> CLOUD AUTOPILOT: PROCESSING POST #{p_id:03d} (Day {day:02d} / Slot {slot})")
+    print(f">> Title: {item.get('title', '')}")
+    print(f">> Region: {region} | Voice: {voice}")
     print(f"========================================================")
 
     # 1. Render poster image
@@ -419,10 +423,10 @@ Check our channel bio: @TheWealthBlueprint
     # 5. Live Uploads
     results = {
         "id": p_id,
-        "day": item["day"],
-        "slot": item["slot"],
-        "region": item["region"],
-        "title": item["title"],
+        "day": day,
+        "slot": slot,
+        "region": region,
+        "title": item.get("title", ""),
         "timestamp": datetime.now().isoformat()
     }
 

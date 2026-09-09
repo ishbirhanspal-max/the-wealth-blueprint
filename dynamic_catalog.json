@@ -604,7 +604,9 @@
       "high net worth",
       "money tips"
     ],
-    "pinned_comment": "Did you know about the IntraFi network? Comment below to get our High-Yield Wealth Masterlist!"
+    "pinned_comment": "Did you know about the IntraFi network? Comment below to get our High-Yield Wealth Masterlist!",
+    "day": 7,
+    "slot": 3
   },
   {
     "id": 22,
@@ -631,7 +633,9 @@
       "wealth blueprint",
       "smart tax"
     ],
-    "pinned_comment": "Are you using an HUF for family taxes? Comment below and follow The Wealth Blueprint!"
+    "pinned_comment": "Are you using an HUF for family taxes? Comment below and follow The Wealth Blueprint!",
+    "day": 8,
+    "slot": 1
   },
   {
     "id": 23,
@@ -658,7 +662,9 @@
       "money rules",
       "wealth blueprint"
     ],
-    "pinned_comment": "Ever had to file a chargeback? Tell us below and follow for zero-BS wealth loopholes!"
+    "pinned_comment": "Ever had to file a chargeback? Tell us below and follow for zero-BS wealth loopholes!",
+    "day": 8,
+    "slot": 2
   },
   {
     "id": 24,
@@ -685,7 +691,9 @@
       "zerodha hack",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you investing in SGBs or physical gold? Comment your strategy below!"
+    "pinned_comment": "Are you investing in SGBs or physical gold? Comment your strategy below!",
+    "day": 8,
+    "slot": 3
   },
   {
     "id": 25,
@@ -712,7 +720,9 @@
       "investing math",
       "wealth blueprint"
     ],
-    "pinned_comment": "Have you turned on the 10% Step-Up toggle in your investment app? Comment below!"
+    "pinned_comment": "Have you turned on the 10% Step-Up toggle in your investment app? Comment below!",
+    "day": 9,
+    "slot": 1
   },
   {
     "id": 26,
@@ -739,7 +749,9 @@
       "safe deposit box",
       "wealth blueprint"
     ],
-    "pinned_comment": "Does your family have a bank locker? Save this reel for legal protection!"
+    "pinned_comment": "Does your family have a bank locker? Save this reel for legal protection!",
+    "day": 9,
+    "slot": 2
   },
   {
     "id": 27,
@@ -766,7 +778,9 @@
       "gemini ai",
       "study hacks"
     ],
-    "pinned_comment": "Have you tried NotebookLM yet? Drop your favorite AI tool in the comments!"
+    "pinned_comment": "Have you tried NotebookLM yet? Drop your favorite AI tool in the comments!",
+    "day": 9,
+    "slot": 3
   },
   {
     "id": 28,
@@ -793,7 +807,9 @@
       "indian tax law",
       "wealth blueprint"
     ],
-    "pinned_comment": "Did you know you can avoid stock taxes with real estate? Comment below!"
+    "pinned_comment": "Did you know you can avoid stock taxes with real estate? Comment below!",
+    "day": 10,
+    "slot": 1
   },
   {
     "id": 29,
@@ -820,7 +836,9 @@
       "personal finance hacks",
       "wealth blueprint"
     ],
-    "pinned_comment": "Have you ever negotiated your credit card annual fee? Comment your result below!"
+    "pinned_comment": "Have you ever negotiated your credit card annual fee? Comment your result below!",
+    "day": 10,
+    "slot": 2
   },
   {
     "id": 30,
@@ -847,7 +865,9 @@
       "smart money india",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you using VPF to beat bank fixed deposits? Comment below!"
+    "pinned_comment": "Are you using VPF to beat bank fixed deposits? Comment below!",
+    "day": 10,
+    "slot": 3
   },
   {
     "id": 31,
@@ -874,7 +894,9 @@
       "financial literacy",
       "wealth blueprint"
     ],
-    "pinned_comment": "Do you have an umbrella policy? Comment below and follow The Wealth Blueprint!"
+    "pinned_comment": "Do you have an umbrella policy? Comment below and follow The Wealth Blueprint!",
+    "day": 11,
+    "slot": 1
   },
   {
     "id": 32,
@@ -901,7 +923,9 @@
       "smart money india",
       "wealth blueprint"
     ],
-    "pinned_comment": "Check your health insurance room rent clause right now! Save this reel for later."
+    "pinned_comment": "Check your health insurance room rent clause right now! Save this reel for later.",
+    "day": 11,
+    "slot": 2
   },
   {
     "id": 33,
@@ -928,7 +952,9 @@
       "credit card rewards",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you using the 45-day credit float? Comment your favorite card below!"
+    "pinned_comment": "Are you using the 45-day credit float? Comment your favorite card below!",
+    "day": 11,
+    "slot": 3
   },
   {
     "id": 34,
@@ -955,7 +981,9 @@
       "passenger rights",
       "wealth blueprint"
     ],
-    "pinned_comment": "Ever had a delayed flight in India? Save this reel for your next trip!"
+    "pinned_comment": "Ever had a delayed flight in India? Save this reel for your next trip!",
+    "day": 12,
+    "slot": 1
   },
   {
     "id": 35,
@@ -982,7 +1010,9 @@
       "personal finance tips",
       "wealth blueprint"
     ],
-    "pinned_comment": "Did your bank ever charge you a late fee within 3 days? Demand a refund!"
+    "pinned_comment": "Did your bank ever charge you a late fee within 3 days? Demand a refund!",
+    "day": 12,
+    "slot": 2
   },
   {
     "id": 36,
@@ -1009,7 +1039,9 @@
       "indian tax planning",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you utilizing the extra ₹50K NPS deduction? Comment below!"
+    "pinned_comment": "Are you utilizing the extra ₹50K NPS deduction? Comment below!",
+    "day": 12,
+    "slot": 3
   },
   {
     "id": 37,
@@ -1036,7 +1068,9 @@
       "save tax on home sale",
       "wealth blueprint"
     ],
-    "pinned_comment": "Selling property soon? Make sure your CA runs both calculations!"
+    "pinned_comment": "Selling property soon? Make sure your CA runs both calculations!",
+    "day": 13,
+    "slot": 1
   },
   {
     "id": 38,
@@ -1063,7 +1097,9 @@
       "indian real estate tax",
       "wealth blueprint"
     ],
-    "pinned_comment": "Did you know about 54EC bonds? Save this reel for your next property sale!"
+    "pinned_comment": "Did you know about 54EC bonds? Save this reel for your next property sale!",
+    "day": 13,
+    "slot": 2
   },
   {
     "id": 39,
@@ -1090,7 +1126,9 @@
       "amazon sale hacks",
       "wealth blueprint"
     ],
-    "pinned_comment": "Ever noticed the extra GST on your No-Cost EMI statement? Check your bill!"
+    "pinned_comment": "Ever noticed the extra GST on your No-Cost EMI statement? Check your bill!",
+    "day": 13,
+    "slot": 3
   },
   {
     "id": 40,
@@ -1117,7 +1155,9 @@
       "health test deduction",
       "wealth blueprint"
     ],
-    "pinned_comment": "Did you claim your ₹5,000 preventive checkup deduction? Save this reel!"
+    "pinned_comment": "Did you claim your ₹5,000 preventive checkup deduction? Save this reel!",
+    "day": 14,
+    "slot": 1
   },
   {
     "id": 41,
@@ -1144,7 +1184,9 @@
       "zero liability circular",
       "wealth blueprint"
     ],
-    "pinned_comment": "Save this reel immediately. If you ever get scammed, report it within 72 hours!"
+    "pinned_comment": "Save this reel immediately. If you ever get scammed, report it within 72 hours!",
+    "day": 14,
+    "slot": 2
   },
   {
     "id": 42,
@@ -1171,7 +1213,9 @@
       "smart money corporate",
       "wealth blueprint"
     ],
-    "pinned_comment": "Does your company have a car lease policy? Comment below!"
+    "pinned_comment": "Does your company have a car lease policy? Comment below!",
+    "day": 14,
+    "slot": 3
   },
   {
     "id": 43,
@@ -1198,7 +1242,9 @@
       "mortgage hack india",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you prepaying your home loan? Comment your strategy below!"
+    "pinned_comment": "Are you prepaying your home loan? Comment your strategy below!",
+    "day": 15,
+    "slot": 1
   },
   {
     "id": 44,
@@ -1225,7 +1271,9 @@
       "stealth ira",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you investing your HSA or spending it? Comment below!"
+    "pinned_comment": "Are you investing your HSA or spending it? Comment below!",
+    "day": 15,
+    "slot": 2
   },
   {
     "id": 45,
@@ -1252,7 +1300,9 @@
       "loan rejection reason",
       "wealth blueprint"
     ],
-    "pinned_comment": "Check your CIBIL report right now for any 'Settled' accounts! Save this reel."
+    "pinned_comment": "Check your CIBIL report right now for any 'Settled' accounts! Save this reel.",
+    "day": 15,
+    "slot": 3
   },
   {
     "id": 46,
@@ -1279,7 +1329,9 @@
       "indian gold investment",
       "wealth blueprint"
     ],
-    "pinned_comment": "Do you have idle gold in bank lockers? Save this reel and look into GMS!"
+    "pinned_comment": "Do you have idle gold in bank lockers? Save this reel and look into GMS!",
+    "day": 16,
+    "slot": 1
   },
   {
     "id": 47,
@@ -1306,7 +1358,9 @@
       "corporate salary secrets",
       "wealth blueprint"
     ],
-    "pinned_comment": "Check your tenure before resigning! Share this with someone switching jobs."
+    "pinned_comment": "Check your tenure before resigning! Share this with someone switching jobs.",
+    "day": 16,
+    "slot": 2
   },
   {
     "id": 48,
@@ -1333,7 +1387,9 @@
       "wealth building tips",
       "wealth blueprint"
     ],
-    "pinned_comment": "Are you doing a Backdoor Roth every year? Comment below!"
+    "pinned_comment": "Are you doing a Backdoor Roth every year? Comment below!",
+    "day": 16,
+    "slot": 3
   },
   {
     "id": 49,
@@ -1360,7 +1416,9 @@
       "smart insurance choice",
       "wealth blueprint"
     ],
-    "pinned_comment": "Check your term insurance policy type right now! Save this reel for reference."
+    "pinned_comment": "Check your term insurance policy type right now! Save this reel for reference.",
+    "day": 17,
+    "slot": 1
   },
   {
     "id": 50,
@@ -1387,7 +1445,9 @@
       "personal finance rules",
       "wealth blueprint"
     ],
-    "pinned_comment": "Where do you keep your emergency fund? Comment below!"
+    "pinned_comment": "Where do you keep your emergency fund? Comment below!",
+    "day": 17,
+    "slot": 2
   },
   {
     "id": 51,
