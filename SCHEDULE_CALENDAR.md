@@ -21,14 +21,14 @@
 | **#25** | **Sep 15 (Tue)** • 08:30 PM (Evening Prime) | [GLOBAL] The Step-Up SIP Secret: Double Your Net Worth in 15 Years | [✅ Pre-Scheduled](https://youtube.com/shorts/zlTON0NFF1A) | ⏳ 4K Reel + Story Scheduled |
 | **#26** | **Sep 16 (Wed)** • 09:00 AM (Morning) | [INDIA] RBI Bank Locker Compensation Rule: 100x Rent Guarantee | [✅ Pre-Scheduled](https://youtube.com/shorts/3Wb5KuZIO-E) | ⏳ 4K Reel + Story Scheduled |
 | **#27** | **Sep 16 (Wed)** • 01:30 PM (Lunch) | [GLOBAL] NotebookLM: Turn Dense 100-Page PDFs into 2-Person AI Podcasts | [✅ Pre-Scheduled](https://youtube.com/shorts/ki9jKe6bW68) | ⏳ 4K Reel + Story Scheduled |
-| **#28** | **Sep 16 (Wed)** • 08:30 PM (Evening Prime) | [INDIA] Section 54F: Sell Stocks, Buy a Home, Pay 0% Capital Gains | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#29** | **Sep 17 (Thu)** • 09:00 AM (Morning) | [GLOBAL] The Retention Call Script: Waive ANY Credit Card Fee in 2 Minutes | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#30** | **Sep 17 (Thu)** • 01:30 PM (Lunch) | [INDIA] EPF vs. VPF: The 8.25% Guaranteed Risk-Free Tax Shield | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#31** | **Sep 17 (Thu)** • 08:30 PM (Evening Prime) | [GLOBAL] The Umbrella Insurance Secret: $1,000,000 Shield for $20/Mo | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#32** | **Sep 18 (Fri)** • 09:00 AM (Morning) | [INDIA] The Health Insurance Room Rent Capping Trap | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#33** | **Sep 18 (Fri)** • 01:30 PM (Lunch) | [GLOBAL] The 45-Day Interest-Free Float (Earn Passive Yield on Bank Money) | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#34** | **Sep 18 (Fri)** • 08:30 PM (Evening Prime) | [INDIA] DGCA Flight Delay Rule: Get 100% Cash Refunds + Free Meals | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
-| **#35** | **Sep 19 (Sat)** • 09:00 AM (Morning) | [INDIA] RBI 3-Day Credit Card Grace Period (Avoid Late Fees & CIBIL Hit) | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
+| **#28** | **Sep 16 (Wed)** • 08:30 PM (Evening Prime) | [INDIA] Section 54F: Sell Stocks, Buy a Home, Pay 0% Capital Gains | [✅ Pre-Scheduled](https://youtube.com/shorts/agaVva2mo2k) | ⏳ 4K Reel + Story Scheduled |
+| **#29** | **Sep 17 (Thu)** • 09:00 AM (Morning) | [GLOBAL] The Retention Call Script: Waive ANY Credit Card Fee in 2 Minutes | [✅ Pre-Scheduled](https://youtube.com/shorts/M4OkVO58rEQ) | ⏳ 4K Reel + Story Scheduled |
+| **#30** | **Sep 17 (Thu)** • 01:30 PM (Lunch) | [INDIA] EPF vs. VPF: The 8.25% Guaranteed Risk-Free Tax Shield | [✅ Pre-Scheduled](https://youtube.com/shorts/udUt-KRjRAQ) | ⏳ 4K Reel + Story Scheduled |
+| **#31** | **Sep 17 (Thu)** • 08:30 PM (Evening Prime) | [GLOBAL] The Umbrella Insurance Secret: $1,000,000 Shield for $20/Mo | [✅ Pre-Scheduled](https://youtube.com/shorts/xClp6OWYKw4) | ⏳ 4K Reel + Story Scheduled |
+| **#32** | **Sep 18 (Fri)** • 09:00 AM (Morning) | [INDIA] The Health Insurance Room Rent Capping Trap | [✅ Pre-Scheduled](https://youtube.com/shorts/riBkS3cb-9Q) | ⏳ 4K Reel + Story Scheduled |
+| **#33** | **Sep 18 (Fri)** • 01:30 PM (Lunch) | [GLOBAL] The 45-Day Interest-Free Float (Earn Passive Yield on Bank Money) | [✅ Pre-Scheduled](https://youtube.com/shorts/r1rYW6k47Ug) | ⏳ 4K Reel + Story Scheduled |
+| **#34** | **Sep 18 (Fri)** • 08:30 PM (Evening Prime) | [INDIA] DGCA Flight Delay Rule: Get 100% Cash Refunds + Free Meals | [✅ Pre-Scheduled](https://youtube.com/shorts/8v4T2eAnYrA) | ⏳ 4K Reel + Story Scheduled |
+| **#35** | **Sep 19 (Sat)** • 09:00 AM (Morning) | [INDIA] RBI 3-Day Credit Card Grace Period (Avoid Late Fees & CIBIL Hit) | [✅ Pre-Scheduled](https://youtube.com/shorts/TrUVaVo0r6M) | ⏳ 4K Reel + Story Scheduled |
 | **#36** | **Sep 19 (Sat)** • 01:30 PM (Lunch) | [INDIA] Section 80CCD(1B): The Extra 50,000 NPS Tax Shield | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
 | **#37** | **Sep 19 (Sat)** • 08:30 PM (Evening Prime) | [INDIA] Budget 2024 Real Estate Tax Rule: 12.5% vs 20% Indexation Hack | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
 | **#38** | **Sep 20 (Sun)** • 09:00 AM (Morning) | [INDIA] Section 54EC Bonds: Save 10 Lakhs Tax on Land & House Sales | ⏳ Queued (3x Autopilot) | ⏳ 4K Reel + Story Scheduled |
