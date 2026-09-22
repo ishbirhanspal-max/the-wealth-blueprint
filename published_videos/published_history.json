@@ -660,5 +660,15 @@
     "timestamp": "2026-09-22T13:13:45.087440",
     "youtube_error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
     "instagram_url": null
+  },
+  {
+    "id": 10,
+    "day": 5,
+    "slot": 2,
+    "region": "INDIA",
+    "title": "Public Provident Fund (PPF): 0% Tax EEE Goldmine \ud83d\udee1\ufe0f\ud83d\udcb5 #PPF",
+    "timestamp": "2026-09-22T18:29:08.575919",
+    "youtube_error": "('invalid_grant: Token has been expired or revoked.', {'error': 'invalid_grant', 'error_description': 'Token has been expired or revoked.'})",
+    "instagram_url": null
   }
 ]
