@@ -810,5 +810,15 @@
     "timestamp": "2026-09-27T13:40:11.076223",
     "youtube_error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
     "instagram_url": null
+  },
+  {
+    "id": 10,
+    "day": 5,
+    "slot": 2,
+    "region": "INDIA",
+    "title": "Public Provident Fund (PPF): 0% Tax EEE Goldmine \ud83d\udee1\ufe0f\ud83d\udcb5 #PPF",
+    "timestamp": "2026-09-27T18:52:33.587807",
+    "youtube_error": "('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})",
+    "instagram_url": null
   }
 ]
